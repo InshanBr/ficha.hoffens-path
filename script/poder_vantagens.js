@@ -392,10 +392,10 @@ function adicionarVantagem() {
       <option value="sorte">Sorte</option>
     </select>
     <input type="text" id="vantagem${contadorVantagens}-nome" title="Vantagem ${contadorVantagens}" class="nome-vantagem" placeholder="Vantagem ${contadorVantagens}">
-    <button class="botao-img" onclick="mostrarVantagem(${contadorVantagens})" title = "Ocultar Descrição da Vantagem ${contadorVantagens}" id="mostrar-vantagem-${contadorVantagens}">
-      <img src="img/mais.png" alt="Mostrar Descrição da Vantagem" class="vantagens-toggle toggle-show">
+    <button class="botao-img" onclick="mostrarVantagem(${contadorVantagens})" title = "Mostrar Descrição da Vantagem ${contadorVantagens}" id="mostrar-vantagem-${contadorVantagens}">
+      <img src="img/mais.png" alt="Mostrar Descrição da Vantagem" class="vantagens-toggle toggle-show show">
     </button>
-    <textarea name="descricao-vantagem" id="descricao-vantagem-${contadorVantagens}" rows="5" class="span-5" placeholder="Descrição da Vantagem ${contadorVantagens}"></textarea>
+    <textarea name="descricao-vantagem" id="descricao-vantagem-${contadorVantagens}" rows="5" class="span-5 hide" placeholder="Descrição da Vantagem ${contadorVantagens}"></textarea>
   `;
     
   listaVantagens.appendChild(novaLinha);
@@ -489,14 +489,16 @@ function mostrarVantagem(vantagem) {
   const descricao = document.getElementById(`descricao-vantagem-${vantagem}`);
   if (!descricao) return;
 
+  descricao.classList.toggle("hide");
+
   const botao = document.getElementById(`mostrar-vantagem-${vantagem}`);
   const imgBotao = botao.querySelector("img");
   imgBotao.classList.toggle("show");
-  if (imgBotao.classList.contains("show")) {
+  if (descricao.classList.contains("hide")) {
     botao.title = "Mostrar Descrição da Vantagem";
   } else {
     botao.title = "Ocultar Descrição da Vantagem";
   }
 
-  descricao.classList.toggle("hide");
+  
 }
