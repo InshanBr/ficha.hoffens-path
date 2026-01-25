@@ -1,5 +1,6 @@
 let contadorPoderes = 0;
 let contadorEfeitos = [];
+let contadorEfeitosAlternativos = [];
 let contadorModificadores = [];
 let contadorVantagens = 0;
 
@@ -7,6 +8,7 @@ let contadorVantagens = 0;
 function adicionarPoder() {
   contadorPoderes++;
   contadorEfeitos[contadorPoderes] = 0;
+  contadorEfeitosAlternativos[contadorPoderes] = [];
   contadorModificadores[contadorPoderes] = [];
 
   const listaPoderes = document.getElementById("lista-poderes");
@@ -29,6 +31,7 @@ function adicionarPoder() {
     <div class="efeitos-modificadores">
       <div class="efeitos-linha">
         <label for="">Modif.</label>
+        <label for="">Ef.Alt.</label>
         <br>
         <label for="">LVL</label>
         <label for="">Custo</label>
@@ -36,12 +39,12 @@ function adicionarPoder() {
         <br>
       </div>
 
-      <div id="lista-efeitos-${contadorPoderes}" style="max-height: 200px; overflow-y: auto;" class="lista-efeitos">
+      <div id="lista-efeitos-${contadorPoderes}" style="max-height: 300px; overflow-y: auto;" class="lista-efeitos">
       </div>
 
       <div style="justify-self: center; display: flex;">
         <button class="botao-img adicionar-efeito" title="Adicionar Efeito ao Poder ${contadorPoderes}" onclick="adicionarEfeito(${contadorPoderes})" style="width: 50%;" id="adicionar-efeito-${contadorPoderes}">
-          <img src="img/adicionar.png" alt="Adicionar Efeito">
+          <img src="img/stack.png" alt="Adicionar Efeito">
         </button>
 
         <button class="botao-img remover-efeito" title="Remover Efeitos e Modificadores Vazios do Poder ${contadorPoderes}" onclick="removerEfeitos(${contadorPoderes})" style="width: 50%;" id="remover-efeito-${contadorPoderes}">
@@ -192,30 +195,79 @@ function ocultarDetalhesPoder(poderId) {
 
 function adicionarEfeito(poder) {
   contadorEfeitos[poder]++;
-  contadorModificadores[poder][contadorEfeitos[poder]] = 0;
-
+  contadorEfeitosAlternativos[poder][contadorEfeitos[poder]] = 0;
+  contadorModificadores[poder][contadorEfeitos[poder]] = [];
+  contadorModificadores[poder][contadorEfeitos[poder]][contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]] = 0;
+  
   const listaEfeitos = document.getElementById(`lista-efeitos-${poder}`);
-
+  
   const novoEfeito = document.createElement("div");
   novoEfeito.className = "efeitos-linha";
   novoEfeito.id = `efeito-${poder}-${contadorEfeitos[poder]}`;
   novoEfeito.innerHTML = `
-    <button class="botao-img" onclick="adicionarModificadores(${poder},${contadorEfeitos[poder]})" title="Adicionar Modificador ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}">
+    <button class="botao-img" onclick="adicionarModificadores(${poder},${contadorEfeitos[poder]},${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})" title="Adicionar Modificador ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}">
       <img src="img/modificador.png" alt="Adicionar modificador">
     </button>
+
+    <button class="botao-img" title="Adicionar Efeito Alternativo a Efeito ${contadorEfeitos[poder]}" onclick="adicionarAlternativo(${poder},${contadorEfeitos[poder]})" id="alternativo-efeito-${contadorEfeitos[poder]}">
+      <img src="img/card-exchange.png" alt="Adicionar Efeito Alternativo">
+    </button>
+
     <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${contadorEfeitos[poder]})">
       <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-efeito-${poder}-${contadorEfeitos[poder]}">
     </button>
-    <input type="number" name="lvl-efeito" id="lvl-efeito-${poder}-${contadorEfeitos[poder]}" class="dependente">
-    <input type="number" name="custo-efeito" id="custo-efeito-${poder}-${contadorEfeitos[poder]}" class="dependente">
-    <input type="text" name="nome-efeito" id="nome-efeito-${poder}-${contadorEfeitos[poder]}" placeholder="Efeito ${contadorEfeitos[poder]}">
+
+    <input type="number" name="lvl-efeito" id="lvl-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="dependente" placeholder="NVL">
+    <input type="number" name="custo-efeito" id="custo-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="dependente" placeholder ="CST">
+    <input type="text" name="nome-efeito" id="nome-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" placeholder="Efeito ${contadorEfeitos[poder]}">
     <div class="small-number">
       <input type="number" id="pontos-efeito-${poder}-${contadorEfeitos[poder]}" name="pontos-efeito"  style="font-size: 20px;" readonly>
     </div>
-  `;
 
+    <div id="lista-modificadores-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6 lista-modificadores">
+    </div>
+
+    <div id="lista-alternativos-${poder}-${contadorEfeitos[poder]}" class="span-7 lista-alternativos">
+    </div>
+  `;
+  
   listaEfeitos.appendChild(novoEfeito);
   trocaTema();
+}
+
+function adicionarAlternativo(poder, efeito) {
+  contadorEfeitosAlternativos[poder][efeito]++;
+  contadorModificadores[poder][efeito][contadorEfeitosAlternativos[poder][efeito]] = 0;
+
+  const listaAlternativos = document.getElementById(`lista-alternativos-${poder}-${efeito}`);
+
+  const novoAlternativo = document.createElement("div");
+  novoAlternativo.className = "alternativos-linha";
+  novoAlternativo.id = `alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}`;
+  novoAlternativo.innerHTML = `
+    <button class="botao-img" onclick="adicionarModificadores(${poder},${efeito},${contadorEfeitosAlternativos[poder][efeito]})" title="Adicionar Modificador ao Efeito Alternativo ${contadorEfeitosAlternativos[poder][efeito]} do Efeito ${efeito} do Poder ${poder}">
+      <img src="img/modificador.png" alt="Adicionar modificador">
+    </button>
+    <br>
+
+    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${efeito})">
+      <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-alternativo-${poder}-${efeito}">
+    </button>
+    
+    <input type="number" name="lvl-alternativo" id="lvl-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="NVL">
+    <input type="number" name="custo-alternativo" id="custo-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="CST">
+    <input type="text" name="nome-alternativo" id="nome-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" placeholder="Efeito Alternativo ${contadorEfeitosAlternativos[poder][efeito]} do Efeito ${efeito}">
+    <div class="small-number">
+      <input type="number" id="pontos-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" name="pontos-alternativo"  style="font-size: 20px;" readonly>
+    </div>
+
+    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6">
+    </div>
+  `;
+
+  listaAlternativos.appendChild(novoAlternativo);
+  trocaTema();
+  recalcularTudo();
 }
 
 function removerEfeitos(poder) {
@@ -294,16 +346,18 @@ function removerEfeitos(poder) {
   recalcularTudo();
 }
 
-function adicionarModificadores(poder, efeito) {
+function adicionarModificadores(poder, efeito, alternativo) {
 
-  contadorModificadores[poder][efeito]++;
+  contadorModificadores[poder][efeito][alternativo]++;
 
-  const listaModificadores = document.getElementById(`efeito-${poder}-${efeito}`);
-  if (contadorModificadores[poder][efeito] == 1) {
+  const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${alternativo}`);
+
+  if (contadorModificadores[poder][efeito][alternativo] == 1) {
     const cabecalho = document.createElement("div");
-    cabecalho.className = "modificadores-linha span-5";
+    cabecalho.className = "modificadores-linha span-6";
+    cabecalho.style = "margin-bottom: 0px;"
     cabecalho.innerHTML = `
-      <br>
+      <span></span>
       <label for="">Custo</label>
       <label for="">Tipo</label>
       <label for="">Modificador</label>
@@ -312,16 +366,16 @@ function adicionarModificadores(poder, efeito) {
   }
 
   const novaLinha = document.createElement("div");
-  novaLinha.className = "modificadores-linha span-5";
+  novaLinha.className = "modificadores-linha span-6";
   novaLinha.innerHTML = `
     <br>
-    <input type="number" id="custo-modificador-${poder}-${efeito}-${contadorModificadores[poder][efeito]}" name="custo-modificador" class="dependente">
-    <select name="tipo-modificador" id="tipo-modificador-${poder}-${efeito}-${contadorModificadores[poder][efeito]}" class="dependente">
+    <input type="number" id="custo-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" name="custo-modificador" class="dependente" placeholder="Custo">
+    <select name="tipo-modificador" id="tipo-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" class="dependente">
       <option value="por-nivel">Por Nível</option>
       <option value="fixo-por-nivel">Fixo por Nível</option>
       <option value="fixo">Fixo</option>
     </select>
-    <input type="text" id="nome-modificador-${poder}-${efeito}-${contadorModificadores[poder][efeito]}" name="nome-modificador" placeholder="Modificador ${contadorModificadores[poder][efeito]} do efeito ${efeito}">
+    <input type="text" id="nome-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" name="nome-modificador" placeholder="Modificador ${contadorModificadores[poder][efeito][alternativo]} do efeito ${efeito}">
   `;
 
   listaModificadores.appendChild(novaLinha);
@@ -341,7 +395,8 @@ function custoPoder (poder) {
     var custoPorNivel = Number(efeito.querySelector("input[name='custo-efeito']").value) || 0;
     var fixo = 0;
     
-    const modificadores = efeito.querySelectorAll(".modificadores-linha");
+    const listaModificadores = efeito.querySelector(".lista-modificadores");
+    modificadores = listaModificadores.querySelectorAll(".modificadores-linha");
     modificadores.forEach(modificador => {
       
       const tipoModif = modificador.querySelector("select[name='tipo-modificador']");
@@ -373,6 +428,53 @@ function calcularCustoPoderes () {
   document.getElementById("total-pontos-poderes").value = custoPoderes;
 }
 
+function custoEfeitoAlternativo (poder, efeito, alternativo) {
+  
+  const poderEl = document.getElementById(`poder-${poder}`);
+  if(!poderEl) return 0;
+  
+  const efAlternativoEl = document.getElementById(`alternativo-${poder}-${efeito}-${alternativo}`);
+  
+  const nivel = Number(efAlternativoEl.querySelector("input[name='lvl-alternativo']").value) || 0;
+  var custoPorNivel = Number(efAlternativoEl.querySelector("input[name='custo-alternativo']").value) || 0;
+  var fixo = 0;
+  
+  const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${alternativo}`);
+  modificadores = listaModificadores.querySelectorAll(".modificadores-linha");
+  modificadores.forEach(modificador => {
+    
+    const tipoModif = modificador.querySelector("select[name='tipo-modificador']");
+    if(!tipoModif) return;
+    const custoModif = Number(modificador.querySelector("input[name='custo-modificador']").value) || 0;
+
+    if (tipoModif.value =="por-nivel") {
+      custoPorNivel += custoModif;
+    } else {
+      fixo += custoModif;
+    }
+  });
+  const custoEfeito = custoPorNivel * nivel + fixo;
+  return custoEfeito;
+}
+
+function calcularCustoEfeitosAlternativos () {
+  
+  for (let poder = 1; poder <= contadorPoderes; poder++) {
+    const poderEl = document.getElementById(`poder-${poder}`);
+    const efeitos = poderEl.querySelectorAll(".lista-alternativos");
+
+    efeitos.forEach((efeito, index_efeito) => {
+      const efeitoEl = efeito.closest(".efeitos-linha");
+      const custoEfeito = Number(efeitoEl.querySelector("input[name='pontos-efeito']").value) || 0;
+      
+      efeito.querySelectorAll(".alternativos-linha").forEach((alternativo, index_alternativo) => {
+        let custo = custoEfeitoAlternativo(poder, index_efeito+1, index_alternativo+1);
+        const restanteAlternativo = alternativo.querySelector("input[name='pontos-alternativo']");
+        restanteAlternativo.value = custoEfeito - custo - contadorEfeitosAlternativos[poder][index_efeito+1];
+      });
+    });
+  }
+}
 
 function adicionarVantagem() {
   contadorVantagens++;

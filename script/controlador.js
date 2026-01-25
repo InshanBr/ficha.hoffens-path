@@ -75,6 +75,7 @@ function recalcularTudo() {
   calcularCustoVantagens();
   calcularCustoPericias();
   calcularCustoPoderes();
+  calcularCustoEfeitosAlternativos();
   calcularPontosEquipamento();
   calcularCustoEquipamento();
   calcularTotalPontos();
