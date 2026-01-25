@@ -898,7 +898,7 @@ span {
 
 .poder-linha {
   display: grid;
-  grid-template-columns: 55% 45%;
+  grid-template-columns: 60% 40%;
   padding-bottom: 5px;
   padding-top: 5px;
   border-bottom: 2px dotted var(--cor-secundaria);
@@ -996,7 +996,7 @@ span {
 
 .modificadores-linha {
   display: grid;
-  grid-template-columns: 5% 10% 20% 49%;
+  grid-template-columns: 5% 8% 20% 55%;
   column-gap: 20px;
   margin-bottom: 5px;
 }
@@ -1007,6 +1007,45 @@ span {
   width: 115%;
 }
 
+.hierarquia-container {
+  border-left: 2px solid var(--cor-secundaria);
+  margin-left: 20px;
+  padding-left: 15px;
+  border-bottom-left-radius: 5px;
+
+  display: flex;
+  flex-direction: column; 
+}
+
+.item-conectado {
+  position: relative;
+}
+
+.item-conectado::before {
+  content: '';
+  position: absolute;
+  left: -17px;
+  top: 0px;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  border-left: 2px solid var(--cor-secundaria); 
+  border-bottom: 2px solid var(--cor-secundaria); 
+  border-bottom-left-radius: 10px; 
+  
+  /* Importante: fundo transparente, senão vira um bloco colorido */
+  background-color: transparent;
+}
+
+.hierarquia-container:hover {
+  border-left-color: var(--cor-primaria);
+  border-left-width: 3px;
+}
+
+.item-conectado::before:hover {
+  border-left-color: var(--cor-primaria);
+  border-bottom-color: var(--cor-primaria);
+}
 
 .toggle-show {
   transition: transform 0.5s;

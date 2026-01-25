@@ -29,7 +29,7 @@ function adicionarPoder() {
     </div>
     
     <div class="efeitos-modificadores">
-      <div class="efeitos-linha">
+      <div class="efeitos-linha" style="margin-left:35px;">
         <label for="">Modif.</label>
         <label for="">Ef.Alt.</label>
         <br>
@@ -39,7 +39,7 @@ function adicionarPoder() {
         <br>
       </div>
 
-      <div id="lista-efeitos-${contadorPoderes}" style="max-height: 300px; overflow-y: auto;" class="lista-efeitos">
+      <div id="lista-efeitos-${contadorPoderes}" style="max-height: 300px; overflow-y: auto;" class="lista-efeitos hierarquia-container">
       </div>
 
       <div style="justify-self: center; display: flex;">
@@ -202,7 +202,7 @@ function adicionarEfeito(poder) {
   const listaEfeitos = document.getElementById(`lista-efeitos-${poder}`);
   
   const novoEfeito = document.createElement("div");
-  novoEfeito.className = "efeitos-linha";
+  novoEfeito.className = "efeitos-linha item-conectado";
   novoEfeito.id = `efeito-${poder}-${contadorEfeitos[poder]}`;
   novoEfeito.innerHTML = `
     <button class="botao-img" onclick="adicionarModificadores(${poder},${contadorEfeitos[poder]},${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})" title="Adicionar Modificador ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}">
@@ -213,21 +213,21 @@ function adicionarEfeito(poder) {
       <img src="img/card-exchange.png" alt="Adicionar Efeito Alternativo">
     </button>
 
-    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${contadorEfeitos[poder]})">
+    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${contadorEfeitos[poder]}, ${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})">
       <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-efeito-${poder}-${contadorEfeitos[poder]}">
     </button>
 
     <input type="number" name="lvl-efeito" id="lvl-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="dependente" placeholder="NVL">
-    <input type="number" name="custo-efeito" id="custo-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="dependente" placeholder ="CST">
+    <input type="number" name="custo-efeito" id="custo-efeito-${poder}-${contadorEfeitos[poder]}" class="dependente" placeholder ="CST">
     <input type="text" name="nome-efeito" id="nome-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" placeholder="Efeito ${contadorEfeitos[poder]}">
     <div class="small-number">
       <input type="number" id="pontos-efeito-${poder}-${contadorEfeitos[poder]}" name="pontos-efeito"  style="font-size: 20px;" readonly>
     </div>
 
-    <div id="lista-modificadores-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6 lista-modificadores">
+    <div id="lista-modificadores-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6 lista-modificadores hierarquia-container">
     </div>
 
-    <div id="lista-alternativos-${poder}-${contadorEfeitos[poder]}" class="span-7 lista-alternativos">
+    <div id="lista-alternativos-${poder}-${contadorEfeitos[poder]}" class="span-7 lista-alternativos hierarquia-container">
     </div>
   `;
   
@@ -242,7 +242,7 @@ function adicionarAlternativo(poder, efeito) {
   const listaAlternativos = document.getElementById(`lista-alternativos-${poder}-${efeito}`);
 
   const novoAlternativo = document.createElement("div");
-  novoAlternativo.className = "alternativos-linha";
+  novoAlternativo.className = "alternativos-linha item-conectado";
   novoAlternativo.id = `alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}`;
   novoAlternativo.innerHTML = `
     <button class="botao-img" onclick="adicionarModificadores(${poder},${efeito},${contadorEfeitosAlternativos[poder][efeito]})" title="Adicionar Modificador ao Efeito Alternativo ${contadorEfeitosAlternativos[poder][efeito]} do Efeito ${efeito} do Poder ${poder}">
@@ -250,18 +250,18 @@ function adicionarAlternativo(poder, efeito) {
     </button>
     <br>
 
-    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${efeito})">
-      <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-alternativo-${poder}-${efeito}">
+    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${efeito}, ${contadorEfeitosAlternativos[poder][efeito]})">
+      <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}">
     </button>
     
-    <input type="number" name="lvl-alternativo" id="lvl-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="NVL">
-    <input type="number" name="custo-alternativo" id="custo-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="CST">
-    <input type="text" name="nome-alternativo" id="nome-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" placeholder="Efeito Alternativo ${contadorEfeitosAlternativos[poder][efeito]} do Efeito ${efeito}">
+    <input type="number" name="lvl-alternativo" id="lvl-efeito-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="NVL">
+    <input type="number" name="custo-alternativo" id="custo-efeito-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="CST">
+    <input type="text" name="nome-alternativo" id="nome-efeito-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" placeholder="Efeito Alternativo ${contadorEfeitosAlternativos[poder][efeito]} do Efeito ${efeito}">
     <div class="small-number">
       <input type="number" id="pontos-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" name="pontos-alternativo"  style="font-size: 20px;" readonly>
     </div>
 
-    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6">
+    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6 hierarquia-container">
     </div>
   `;
 
@@ -366,7 +366,7 @@ function adicionarModificadores(poder, efeito, alternativo) {
   }
 
   const novaLinha = document.createElement("div");
-  novaLinha.className = "modificadores-linha span-6";
+  novaLinha.className = "modificadores-linha span-6 item-conectado";
   novaLinha.innerHTML = `
     <br>
     <input type="number" id="custo-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" name="custo-modificador" class="dependente" placeholder="Custo">
