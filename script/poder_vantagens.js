@@ -170,7 +170,6 @@ function removerPoder (poder) {
   recalcularTudo();
 }
 
-
 function ocultarDetalhesPoder(poderId) {
   const poderEl = document.getElementById(`poder-${poderId}`);
   if (!poderEl) return;
@@ -206,7 +205,7 @@ function adicionarEfeito(poder) {
   novoEfeito.id = `efeito-${poder}-${contadorEfeitos[poder]}`;
   novoEfeito.innerHTML = `
     <button class="botao-img" onclick="adicionarModificadores(${poder},${contadorEfeitos[poder]},${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})" title="Adicionar Modificador ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}">
-      <img src="img/modificador.png" alt="Adicionar modificador">
+      <img src="img/rubiks-cube.png" alt="Adicionar modificador">
     </button>
 
     <button class="botao-img" title="Adicionar Efeito Alternativo a Efeito ${contadorEfeitos[poder]}" onclick="adicionarAlternativo(${poder},${contadorEfeitos[poder]})" id="alternativo-efeito-${contadorEfeitos[poder]}">
@@ -241,12 +240,22 @@ function adicionarAlternativo(poder, efeito) {
 
   const listaAlternativos = document.getElementById(`lista-alternativos-${poder}-${efeito}`);
 
+  if (contadorEfeitosAlternativos[poder][efeito] == 1) {
+    const cabecalho = document.createElement("div");
+    cabecalho.className = "span-6";
+    cabecalho.style = "margin-top: 2px;"
+    cabecalho.innerHTML = `
+      <label for="">Efeitos Alternativos</label>
+    `;
+    listaAlternativos.appendChild(cabecalho);
+  }
+
   const novoAlternativo = document.createElement("div");
   novoAlternativo.className = "alternativos-linha item-conectado";
   novoAlternativo.id = `alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}`;
   novoAlternativo.innerHTML = `
     <button class="botao-img" onclick="adicionarModificadores(${poder},${efeito},${contadorEfeitosAlternativos[poder][efeito]})" title="Adicionar Modificador ao Efeito Alternativo ${contadorEfeitosAlternativos[poder][efeito]} do Efeito ${efeito} do Poder ${poder}">
-      <img src="img/modificador.png" alt="Adicionar modificador">
+      <img src="img/rubiks-cube.png" alt="Adicionar modificador">
     </button>
     <br>
 
@@ -261,7 +270,7 @@ function adicionarAlternativo(poder, efeito) {
       <input type="number" id="pontos-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" name="pontos-alternativo"  style="font-size: 20px;" readonly>
     </div>
 
-    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6 hierarquia-container">
+    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="span-6 hierarquia-container lista-modificadores">
     </div>
   `;
 
@@ -271,87 +280,202 @@ function adicionarAlternativo(poder, efeito) {
 }
 
 function removerEfeitos(poder) {
-  const poderLinha = document.getElementById(`poder-${poder}`);
+  const poderEl = document.getElementById(`poder-${poder}`);
+  if (!poderEl) return;
 
-  poderLinha.querySelectorAll('input[name="nome-efeito"]').forEach(efeito => {
-    let efeitoN = efeito.id.at(-1) ;
-    const linha = efeito.closest(".efeitos-linha");
-    if (efeito.value.trim() === "") {
-      if (linha) {
-        linha.remove();
-        contadorEfeitos[poder]--;
+  const listaEfeitos = poderEl.querySelector(".lista-efeitos");
+  const efeitosDom = listaEfeitos.querySelectorAll(".efeitos-linha");
+
+  efeitosDom.forEach(efeitoEl => {
+    limparModificadoresVazios(efeitoEl);
+
+    const alternativosDom = efeitoEl.querySelectorAll(".alternativos-linha");
+    alternativosDom.forEach(altEl => {
+      limparModificadoresVazios(altEl);
+
+      const inputNomeAlt = altEl.querySelector("input[name='nome-alternativo']");
+      if (!inputNomeAlt || inputNomeAlt.value.trim() === "") {
+        altEl.remove();
       }
-    } else if (linha){
-      linha.querySelectorAll('input[name="nome-modificador"]').forEach(modificador => {
-        if (modificador.value.trim() == "") {
-          const modificadorLinha = modificador.closest(".modificadores-linha");
-          if (modificadorLinha) {
-            modificadorLinha.remove();
-            contadorModificadores[poder][efeitoN]--;
-          }
-        }
-      });
-      if (contadorModificadores[poder][efeitoN] == 0) {
-        const cabecalho = linha.querySelector(".modificadores-linha");
-        if (cabecalho) {
-          cabecalho.remove();
-        }
-      }
+    });
+
+    const inputNomeEf = efeitoEl.querySelector("input[name='nome-efeito']");
+    if (!inputNomeEf || inputNomeEf.value.trim() === "") {
+      efeitoEl.remove(); 
     }
   });
 
-  const linhas = poderLinha.querySelectorAll(".efeitos-linha");
+  contadorEfeitos[poder] = 0;
+  contadorEfeitosAlternativos[poder] = []; 
+  contadorModificadores[poder] = []; 
 
-  linhas.forEach((linhaEfeito, indexEfeito) => {
+  const efeitosRestantes = listaEfeitos.querySelectorAll(".efeitos-linha");
+  
+  efeitosRestantes.forEach((efeitoEl, indexEfeitoZero) => {
+    const indexEf = indexEfeitoZero + 1;
+    contadorEfeitos[poder] = indexEf;
+    
+    contadorEfeitosAlternativos[poder][indexEf] = 0;
+    contadorModificadores[poder][indexEf] = []; 
+    contadorModificadores[poder][indexEf][0] = 0;
+    
+    efeitoEl.id = `efeito-${poder}-${indexEf}`;
+    
+    atualizarAtributosEfeito(efeitoEl, poder, indexEf, 0);
 
-    const lvl = linhaEfeito.querySelector('input[name="lvl-efeito"]');
-    const custo = linhaEfeito.querySelector('input[name="custo-efeito"]');
-    const nome = linhaEfeito.querySelector('input[name="nome-efeito"]');
-
-    if (lvl) {
-      lvl.id = `lvl-efeito-${poder}-${indexEfeito}`;
+    const listaModifPrincipal = efeitoEl.querySelector(".lista-modificadores");
+    if(listaModifPrincipal) {
+      listaModifPrincipal.id = `lista-modificadores-${poder}-${indexEf}-0`;
+      reindexarModificadores(listaModifPrincipal, poder, indexEf, 0);
     }
 
-    if (custo) {
-      custo.id = `custo-efeito-${poder}-${indexEfeito}`;
+    const listaAlternativosContainer = efeitoEl.querySelector(".lista-alternativos");
+    if(listaAlternativosContainer) {
+      listaAlternativosContainer.id = `lista-alternativos-${poder}-${indexEf}`;
     }
 
-    if (nome) {
-      nome.id = `nome-efeito-${poder}-${indexEfeito}`;
-      nome.placeholder = `Efeito ${indexEfeito}`;
+    const alternativosRestantes = efeitoEl.querySelectorAll(".alternativos-linha");
+    
+    if (alternativosRestantes.length === 0) {
+      const headerAlt = listaAlternativosContainer.querySelector("div:not(.alternativos-linha)");
+      if(headerAlt && headerAlt.innerText.includes("Efeitos Alternativos")) headerAlt.remove();
     }
+    
+    alternativosRestantes.forEach((altEl, indexAltZero) => {
+      const indexAlt = indexAltZero + 1;
+      contadorEfeitosAlternativos[poder][indexEf] = indexAlt;
+      contadorModificadores[poder][indexEf][indexAlt] = 0;
 
-    const linhasModif = linhaEfeito.querySelectorAll(".modificadores-linha");
+      altEl.id = `alternativo-${poder}-${indexEf}-${indexAlt}`;
 
-    linhasModif.forEach((linhaModificador, indexModificador) => {
-
-      const custoM = linhaModificador.querySelector('input[name="custo-modificador"]');
-      const tipoM = linhaModificador.querySelector('select[name="tipo-modificador"]');
-      const nomeM = linhaModificador.querySelector('input[name="nome-modificador"]');
-
-      if(custoM) {
-        custoM.id = `custo-modificador-${poder}-${indexEfeito}-${indexModificador}`;
-      }
-
-      if (tipoM) {
-        tipoM.id = `tipo-modificador-${poder}-${indexEfeito}-${indexModificador}`;
-      }
-
-      if (nomeM) {
-        nomeM.id = `nome-modificador-${poder}-${indexEfeito}-${indexModificador}`;
-        nomeM.placeholder = `Modificador ${indexModificador} do efeito ${indexEfeito}`;
+      atualizarAtributosAlternativo(altEl, poder, indexEf, indexAlt);
+      const listaModifAlt = altEl.querySelector(".lista-modificadores");
+      if(listaModifAlt) {
+        listaModifAlt.id = `lista-modificadores-${poder}-${indexEf}-${indexAlt}`;
+        reindexarModificadores(listaModifAlt, poder, indexEf, indexAlt);
       }
     });
   });
+
   recalcularTudo();
 }
 
-function adicionarModificadores(poder, efeito, alternativo) {
+function limparModificadoresVazios(container) {
+  const inputsNome = container.querySelectorAll("input[name='nome-modificador']");
+  
+  inputsNome.forEach(input => {
+    if (input.value.trim() === "") {
+      const linhaMod = input.closest(".modificadores-linha");
+      if (linhaMod) linhaMod.remove();
+    }
+  });
 
+  const linhasRestantes = container.querySelectorAll(".modificadores-linha");
+  let temConteudo = false;
+  linhasRestantes.forEach(linha => {
+      if(linha.querySelector("input")) temConteudo = true;
+  });
+
+  if (!temConteudo) {
+      linhasRestantes.forEach(linha => linha.remove());
+  }
+}
+
+function reindexarModificadores(containerModificadores, poder, efeito, alternativo) {
+    const modificadores = containerModificadores.querySelectorAll(".modificadores-linha");
+    let contadorReal = 0;
+
+    modificadores.forEach(linha => {
+        if (!linha.querySelector("input")) return;
+
+        contadorReal++;
+        contadorModificadores[poder][efeito][alternativo] = contadorReal;
+
+        const custo = linha.querySelector("input[name='custo-modificador']");
+        const tipo = linha.querySelector("select[name='tipo-modificador']");
+        const nome = linha.querySelector("input[name='nome-modificador']");
+
+        if (custo) custo.id = `custo-modificador-${poder}-${efeito}-${alternativo}-${contadorReal}`;
+        if (tipo) tipo.id = `tipo-modificador-${poder}-${efeito}-${alternativo}-${contadorReal}`;
+        if (nome) {
+            nome.id = `nome-modificador-${poder}-${efeito}-${alternativo}-${contadorReal}`;
+            nome.placeholder = `Modificador ${contadorReal} do efeito ${efeito}`;
+        }
+    });
+}
+
+function atualizarAtributosEfeito(el, poder, indexEf, indexAlt) {
+    const btnAddMod = el.querySelector("button[onclick^='adicionarModificadores']");
+    if(btnAddMod) {
+        btnAddMod.setAttribute("onclick", `adicionarModificadores(${poder}, ${indexEf}, ${indexAlt})`);
+        btnAddMod.title = `Adicionar Modificador ao Efeito ${indexEf} do Poder ${poder}`;
+    }
+
+    const btnAddAlt = el.querySelector("button[onclick^='adicionarAlternativo']");
+    if(btnAddAlt) {
+        btnAddAlt.id = `alternativo-efeito-${indexEf}`;
+        btnAddAlt.setAttribute("onclick", `adicionarAlternativo(${poder}, ${indexEf})`);
+        btnAddAlt.title = `Adicionar Efeito Alternativo a Efeito ${indexEf}`;
+    }
+    
+    const btnRolar = el.querySelector("button[onclick^='rolarPoderPersonalizado']");
+    if(btnRolar) {
+        btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexAlt})`);
+        const img = btnRolar.querySelector("img");
+        if(img) img.id = `teste-efeito-${poder}-${indexEf}`;
+    }
+
+    const lvl = el.querySelector("input[name='lvl-efeito']");
+    if(lvl) lvl.id = `lvl-efeito-${poder}-${indexEf}-${indexAlt}`;
+
+    const custo = el.querySelector("input[name='custo-efeito']");
+    if(custo) custo.id = `custo-efeito-${poder}-${indexEf}`;
+
+    const nome = el.querySelector("input[name='nome-efeito']");
+    if(nome) {
+        nome.id = `nome-efeito-${poder}-${indexEf}-${indexAlt}`;
+        nome.placeholder = `Efeito ${indexEf}`;
+    }
+
+    const pontos = el.querySelector("input[name='pontos-efeito']");
+    if(pontos) pontos.id = `pontos-efeito-${poder}-${indexEf}`;
+}
+
+function atualizarAtributosAlternativo(el, poder, indexEf, indexAlt) {
+    const btnAddMod = el.querySelector("button[onclick^='adicionarModificadores']");
+    if(btnAddMod) {
+        btnAddMod.setAttribute("onclick", `adicionarModificadores(${poder}, ${indexEf}, ${indexAlt})`);
+        btnAddMod.title = `Adicionar Modificador ao Efeito Alternativo ${indexAlt} do Efeito ${indexEf}`;
+    }
+
+    const btnRolar = el.querySelector("button[onclick^='rolarPoderPersonalizado']");
+    if(btnRolar) {
+        btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexAlt})`);
+        const img = btnRolar.querySelector("img");
+        if(img) img.id = `teste-alternativo-${poder}-${indexEf}-${indexAlt}`;
+    }
+
+    const lvl = el.querySelector("input[name='lvl-alternativo']");
+    if(lvl) lvl.id = `lvl-efeito-${poder}-${indexEf}-${indexAlt}`; // Mantendo padrão do seu HTML original
+
+    const custo = el.querySelector("input[name='custo-alternativo']");
+    if(custo) custo.id = `custo-efeito-${poder}-${indexEf}-${indexAlt}`;
+
+    const nome = el.querySelector("input[name='nome-alternativo']");
+    if(nome) {
+        nome.id = `nome-efeito-${poder}-${indexEf}-${indexAlt}`;
+        nome.placeholder = `Efeito Alternativo ${indexAlt} do Efeito ${indexEf}`;
+    }
+
+    const pontos = el.querySelector("input[name='pontos-alternativo']");
+    if(pontos) pontos.id = `pontos-alternativo-${poder}-${indexEf}-${indexAlt}`;
+}
+
+function adicionarModificadores(poder, efeito, alternativo) {
   contadorModificadores[poder][efeito][alternativo]++;
 
   const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${alternativo}`);
-
+  
   if (contadorModificadores[poder][efeito][alternativo] == 1) {
     const cabecalho = document.createElement("div");
     cabecalho.className = "modificadores-linha span-6";
@@ -377,7 +501,7 @@ function adicionarModificadores(poder, efeito, alternativo) {
     </select>
     <input type="text" id="nome-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" name="nome-modificador" placeholder="Modificador ${contadorModificadores[poder][efeito][alternativo]} do efeito ${efeito}">
   `;
-
+  
   listaModificadores.appendChild(novaLinha);
 }
 
