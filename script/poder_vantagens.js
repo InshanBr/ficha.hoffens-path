@@ -126,34 +126,11 @@ function removerPoder (poder) {
     const linhasEf = listaEfeitos.querySelectorAll(".efeitos-linha");
     
     linhasEf.forEach((linhaEfeito, indexEfeito) => {
-      const lvl = linhaEfeito.querySelector('input[name="lvl-efeito"]');
-      const custo = linhaEfeito.querySelector('input[name="custo-efeito"]');
-      const nome = linhaEfeito.querySelector('input[name="nome-efeito"]');
-      const addModif = linhaEfeito.querySelector('button[onclick^="adicionarModificadores"]');
-      const addAlt = linhaEfeito.querySelector('button[onclick^="adicionarAlternativo"]');
-      const rolar = linhaEfeito.querySelector('button[onclick^="rolarPoderPersonalizado"]');
-
-      if (lvl) lvl.id = `lvl-efeito-${indexPoder+1}-${indexEfeito+1}`;
-      if (custo) custo.id = `custo-efeito-${indexPoder+1}-${indexEfeito+1}`;
-      if (nome) {
-        nome.id = `nome-efeito-${indexPoder+1}-${indexEfeito+1}`;
-        nome.placeholder = `Efeito ${indexEfeito+1}`;
-      }
-      if (addModif) {
-        addModif.setAttribute("onclick", `adicionarModificadores(${indexPoder+1}, ${indexEfeito+1}, 0)`);
-        addModif.title = `Adicionar Modificador ao Efeito ${indexEfeito+1} do Poder ${indexPoder+1}`;
-      }
-      if (addAlt) {
-        addAlt.setAttribute("onclick", `adicionarAlternativo(${indexPoder+1},${indexEfeito+1})`);
-        addAlt.title = `Adicionar Efeito Alternativo ao Efeito ${indexEfeito+1} do Poder ${indexPoder+1}`;
-      }
-      if (rolar) {
-        rolar.setAttribute("onclick", `rolarPoderPersonalizado(${indexPoder+1}, ${indexEfeito+1}, 0)`);
-      }
+      atualizarAtributosEfeito(linhaEfeito, indexPoder+1, indexEfeito+1, 0);
       
       const listaModif = linhaEfeito.querySelector(".lista-modificadores");
       listaModif.id = `lista-modificadores-${indexPoder+1}-${indexEfeito+1}-0`;
-      
+
       reindexarModificadores(listaModif, indexPoder+1, indexEfeito+1, 0);
       
       const listaAlt = linhaEfeito.querySelector(".lista-alternativos");
@@ -452,8 +429,6 @@ function atualizarAtributosAlternativo(el, poder, indexEf, indexAlt) {
     const btnRolar = el.querySelector("button[onclick^='rolarPoderPersonalizado']");
     if(btnRolar) {
         btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexAlt})`);
-        const img = btnRolar.querySelector("img");
-        if(img) img.id = `teste-alternativo-${poder}-${indexEf}-${indexAlt}`;
     }
 
     const lvl = el.querySelector("input[name='lvl-alternativo']");
