@@ -150,6 +150,11 @@ function carregarFicha(nome) {
     if (el) el.value = dados[id];
   });
 
+  const arquetipo = document.getElementById("arquetipo-selecao").value;
+  mudarArquetipo(arquetipo, 'arquetipo');
+  const despertar = document.getElementById("despertar-selecao").value;
+  mudarArquetipo(despertar, 'despertar');
+
   document.getElementById("pagina").innerHTML = nome;
   document.getElementById("listaFichas").value = nome;
   recalcularTudo();
