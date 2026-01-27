@@ -75,6 +75,7 @@ function removerPoder (poder) {
     poderRemover.remove();
     contadorModificadores.splice(poder,1);
     contadorEfeitos.splice(poder,1);
+    contadorEfeitosAlternativos.splice(poder, 1)
     contadorPoderes--;
   }
 
@@ -122,53 +123,54 @@ function removerPoder (poder) {
       descricaoPoder.placeholder = `Descrição do poder ${indexPoder+1}`
     }
 
-    const linhasEf = linhaPoder.querySelectorAll(".efeitos-linha");
-
+    const linhasEf = listaEfeitos.querySelectorAll(".efeitos-linha");
+    
     linhasEf.forEach((linhaEfeito, indexEfeito) => {
-
       const lvl = linhaEfeito.querySelector('input[name="lvl-efeito"]');
       const custo = linhaEfeito.querySelector('input[name="custo-efeito"]');
       const nome = linhaEfeito.querySelector('input[name="nome-efeito"]');
+      const addModif = linhaEfeito.querySelector('button[onclick^="adicionarModificadores"]');
+      const addAlt = linhaEfeito.querySelector('button[onclick^="adicionarAlternativo"]');
+      const rolar = linhaEfeito.querySelector('button[onclick^="rolarPoderPersonalizado"]');
 
-      if (lvl) {
-        lvl.id = `lvl-efeito-${indexPoder+1}-${indexEfeito}`;
-      }
-
-      if (custo) {
-        custo.id = `custo-efeito-${indexPoder+1}-${indexEfeito}`;
-      }
-
+      if (lvl) lvl.id = `lvl-efeito-${indexPoder+1}-${indexEfeito+1}`;
+      if (custo) custo.id = `custo-efeito-${indexPoder+1}-${indexEfeito+1}`;
       if (nome) {
-        nome.id = `nome-efeito-${indexPoder+1}-${indexEfeito}`;
-        nome.placeholder = `Efeito ${indexEfeito}`;
+        nome.id = `nome-efeito-${indexPoder+1}-${indexEfeito+1}`;
+        nome.placeholder = `Efeito ${indexEfeito+1}`;
       }
+      if (addModif) {
+        addModif.setAttribute("onclick", `adicionarModificadores(${indexPoder+1}, ${indexEfeito+1}, 0)`);
+        addModif.title = `Adicionar Modificador ao Efeito ${indexEfeito+1} do Poder ${indexPoder+1}`;
+      }
+      if (addAlt) {
+        addAlt.setAttribute("onclick", `adicionarAlternativo(${indexPoder+1},${indexEfeito+1})`);
+        addAlt.title = `Adicionar Efeito Alternativo ao Efeito ${indexEfeito+1} do Poder ${indexPoder+1}`;
+      }
+      if (rolar) {
+        rolar.setAttribute("onclick", `rolarPoderPersonalizado(${indexPoder+1}, ${indexEfeito+1}, 0)`);
+      }
+      
+      const listaModif = linhaEfeito.querySelector(".lista-modificadores");
+      listaModif.id = `lista-modificadores-${indexPoder+1}-${indexEfeito+1}-0`;
+      
+      reindexarModificadores(listaModif, indexPoder+1, indexEfeito+1, 0);
+      
+      const listaAlt = linhaEfeito.querySelector(".lista-alternativos");
+      listaAlt.id = `lista-alternativos-${indexPoder+1}-${indexEfeito+1}`;
 
-      const linhasModif = linhaEfeito.querySelectorAll(".modificadores-linha");
+      listaAlt.querySelectorAll(".alternativos-linha").forEach((alternativo, indexAlt) => {
+        atualizarAtributosAlternativo(alternativo, indexPoder+1, indexEfeito+1, indexAlt+1);
 
-      linhasModif.forEach((linhaModificador, indexModificador) => {
-
-        const custoM = linhaModificador.querySelector('input[name="custo-modificador"]');
-        const tipoM = linhaModificador.querySelector('select[name="tipo-modificador"]');
-        const nomeM = linhaModificador.querySelector('input[name="nome-modificador"]');
-
-        if(custoM) {
-          custoM.id = `custo-modificador-${indexPoder+1}-${indexEfeito}-${indexModificador}`;
-        }
-
-        if (tipoM) {
-          tipoM.id = `tipo-modificador-${indexPoder+1}-${indexEfeito}-${indexModificador}`;
-        }
-
-        if (nomeM) {
-          nomeM.id = `nome-modificador-${indexPoder+1}-${indexEfeito}-${indexModificador}`;
-          nomeM.placeholder = `Modificador ${indexModificador} do efeito ${indexEfeito}`;
-        }
+        const modifAlt = alternativo.querySelector(".lista-modificadores");
+        reindexarModificadores(modifAlt, indexPoder+1, indexEfeito+1, indexAlt+1);
       });
     });
   });
 
   recalcularTudo();
 }
+
 
 function ocultarDetalhesPoder(poderId) {
   const poderEl = document.getElementById(`poder-${poderId}`);
@@ -208,12 +210,12 @@ function adicionarEfeito(poder) {
       <img src="img/rubiks-cube.png" alt="Adicionar modificador">
     </button>
 
-    <button class="botao-img" title="Adicionar Efeito Alternativo a Efeito ${contadorEfeitos[poder]}" onclick="adicionarAlternativo(${poder},${contadorEfeitos[poder]})" id="alternativo-efeito-${contadorEfeitos[poder]}">
+    <button class="botao-img" title="Adicionar Efeito Alternativo ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}" onclick="adicionarAlternativo(${poder},${contadorEfeitos[poder]})" id="alternativo-efeito-${contadorEfeitos[poder]}">
       <img src="img/card-exchange.png" alt="Adicionar Efeito Alternativo">
     </button>
 
     <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${contadorEfeitos[poder]}, ${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})">
-      <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-efeito-${poder}-${contadorEfeitos[poder]}">
+      <img src="img/d20.png" alt="Rolar teste de Poder">
     </button>
 
     <input type="number" name="lvl-efeito" id="lvl-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="dependente" placeholder="NVL">
@@ -384,12 +386,13 @@ function limparModificadoresVazios(container) {
 function reindexarModificadores(containerModificadores, poder, efeito, alternativo) {
     const modificadores = containerModificadores.querySelectorAll(".modificadores-linha");
     let contadorReal = 0;
-
+    
     modificadores.forEach(linha => {
         if (!linha.querySelector("input")) return;
 
         contadorReal++;
         contadorModificadores[poder][efeito][alternativo] = contadorReal;
+        
 
         const custo = linha.querySelector("input[name='custo-modificador']");
         const tipo = linha.querySelector("select[name='tipo-modificador']");
@@ -421,8 +424,6 @@ function atualizarAtributosEfeito(el, poder, indexEf, indexAlt) {
     const btnRolar = el.querySelector("button[onclick^='rolarPoderPersonalizado']");
     if(btnRolar) {
         btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexAlt})`);
-        const img = btnRolar.querySelector("img");
-        if(img) img.id = `teste-efeito-${poder}-${indexEf}`;
     }
 
     const lvl = el.querySelector("input[name='lvl-efeito']");

@@ -58,6 +58,7 @@ function salvarFicha() {
   localStorage.setItem(`contadorVantagens:${nome}`, contadorVantagens);
   localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(contadorModificadores));
   localStorage.setItem(`contadorEfeitos:${nome}`, JSON.stringify(contadorEfeitos));
+  localStorage.setItem(`contadorEfeitosAlternativos:${nome}`, JSON.stringify(contadorEfeitosAlternativos));
   localStorage.setItem(`contadorPoderes:${nome}`, contadorPoderes);
   localStorage.setItem(`contadorEquipamento:${nome}`, contadorEquipamento);
 
@@ -83,23 +84,52 @@ function carregarFicha(nome) {
     adicionarVantagem();
   }
 
-  const nPoderes = JSON.parse(localStorage.getItem(`contadorPoderes:${nome}`));
-  const nEfeitos = JSON.parse(localStorage.getItem(`contadorEfeitos:${nome}`));
-  const nModiifcadores = JSON.parse(localStorage.getItem(`contadorModificadores:${nome}`));
+  const nPoderes = JSON.parse(localStorage.getItem(`contadorPoderes:${nome}`)) || 0;
+  const nEfeitos = JSON.parse(localStorage.getItem(`contadorEfeitos:${nome}`)) || [];
+  const nEfeitosAlternativos = JSON.parse(localStorage.getItem(`contadorEfeitosAlternativos:${nome}`)) || [];
+  const nModificadores = JSON.parse(localStorage.getItem(`contadorModificadores:${nome}`)) || [];
 
   const listaPoderes = document.getElementById("lista-poderes");
   listaPoderes.innerHTML = "";
 
   contadorPoderes = 0;
   contadorEfeitos = [];
+  contadorEfeitosAlternativos = [];
   contadorModificadores = [];
 
   for (let i = 0; i < nPoderes; i++) {
     adicionarPoder();
-    for (let j = 0; j < nEfeitos[i+1]; j++) {
+    
+    const qtdEfeitos = nEfeitos[i+1] || 0;
+
+    for (let j = 0; j < qtdEfeitos; j++) {
       adicionarEfeito(i+1);
-      for (let k = 0; k < nModiifcadores[i+1][j+1]; k++) {
-        adicionarModificadores(i+1, j+1);
+      
+      let qtdModsPrincipal = 0;
+      if (nModificadores[i+1] && nModificadores[i+1][j+1]) {
+        qtdModsPrincipal = nModificadores[i+1][j+1][0] || 0;
+      }
+
+      for (let k = 0; k < qtdModsPrincipal; k++) {
+        adicionarModificadores(i+1, j+1, 0);
+      }
+
+      let qtdAlternativos = 0;
+      if (nEfeitosAlternativos[i+1]) {
+        qtdAlternativos = nEfeitosAlternativos[i+1][j+1] || 0;
+      }
+
+      for (let l = 0; l < qtdAlternativos; l++) {
+        adicionarAlternativo(i+1, j+1);
+
+        let qtdModsAlt = 0;
+        if (nModificadores[i+1] && nModificadores[i+1][j+1]) {
+            qtdModsAlt = nModificadores[i+1][j+1][l+1] || 0;
+        }
+
+        for (let m = 0; m < qtdModsAlt; m++) {
+            adicionarModificadores(i+1, j+1, l+1);
+        }
       }
     }
   }
@@ -134,6 +164,7 @@ function deletarFicha() {
   localStorage.removeItem(`contadorVantagens:${nome}`);
   localStorage.removeItem(`contadorEquipamento:${nome}`);
   localStorage.removeItem(`contadorModificadores:${nome}`);
+  localStorage.removeItem(`contadorEfeitosAlternativos:${nome}`);
   localStorage.removeItem(`contadorEfeitos:${nome}`);
   localStorage.removeItem(`contadorPoderes:${nome}`);
 
@@ -207,6 +238,7 @@ function exportarFicha() {
     contadorPoderes,
     contadorEfeitos,
     contadorModificadores,
+    contadorEfeitosAlternativos,
     contadorEquipamento
   };
 
@@ -234,16 +266,18 @@ function importarFicha(event) {
     const dados = json.dados;
     const nVantagens = json.contadorVantagens || 0;
     const nPoderes = json.contadorPoderes || 0;
-    const nEfeitos = json.contadorEfeitos;
-    const nModiifcadores = json.contadorModificadores;
-    const nEquipamentos = json.contadorEquipamento;
+    const nEfeitos = json.contadorEfeitos || [];
+    const nEfeitosAlternativos = json.contadorEfeitosAlternativos || [];
+    const nModificadores = json.contadorModificadores || [];
+    const nEquipamentos = json.contadorEquipamento || 0;
 
     const nome = dados["personagem"];
 
     localStorage.setItem(`ficha:${nome}`, JSON.stringify(dados));
     localStorage.setItem(`contadorVantagens:${nome}`, nVantagens);
-    localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(nModiifcadores));
+    localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(nModificadores));
     localStorage.setItem(`contadorEfeitos:${nome}`, JSON.stringify(nEfeitos));
+    localStorage.setItem(`contadorEfeitosAlternativos:${nome}`, JSON.stringify(nEfeitosAlternativos));
     localStorage.setItem(`contadorPoderes:${nome}`, nPoderes);
     localStorage.setItem(`contadorEquipamento:${nome}`, nEquipamentos);
 
