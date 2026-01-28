@@ -63,7 +63,7 @@ function recalcularTudo() {
 
   const corrupcao = document.getElementById("corrupcao");
   const max = document.getElementById("corrupcao-maximo");
-
+  
   despertar();
   atualizarBarra(corrupcao, max);
   calcularBonusClasse();
