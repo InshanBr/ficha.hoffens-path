@@ -202,6 +202,13 @@ function adicionarEfeito(poder) {
     `;
     listaEfeitos.appendChild(cabecalho);
   }
+
+  var estiloPontos;
+  if (contadorEfeitos[poder] > 1) {
+    estiloPontos = "font-size: 20px;color: var(--cor-tema-menu);background-color:var(--cor-secundaria);padding:2px;box-sizing:content-box;"
+  } else {
+    estiloPontos = "font-size: 20px;";
+  }
   
   const novoEfeito = document.createElement("div");
   novoEfeito.className = "efeitos-linha item-conectado";
@@ -223,7 +230,7 @@ function adicionarEfeito(poder) {
     <input type="number" name="custo-efeito" id="custo-efeito-${poder}-${contadorEfeitos[poder]}" class="dependente" placeholder ="CST">
     <input type="text" name="nome-efeito" id="nome-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosLigados[poder][contadorEfeitos[poder]]}" placeholder="Efeito ${contadorEfeitos[poder]}">
     <div class="small-number">
-      <input type="number" id="pontos-efeito-${poder}-${contadorEfeitos[poder]}" name="pontos-efeito"  style="font-size: 20px;" readonly>
+      <input type="number" id="pontos-efeito-${poder}-${contadorEfeitos[poder]}" name="pontos-efeito"  style="${estiloPontos}" readonly>
     </div>
 
     <div id="lista-modificadores-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosLigados[poder][contadorEfeitos[poder]]}" class="span-6 lista-modificadores hierarquia-container">
