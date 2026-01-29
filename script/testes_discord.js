@@ -42,9 +42,9 @@ function rolarPericiaPersonalizada (pericia) {
   testeAtributo(pericia+"-total", nomePericia);
 }
 
-function rolarPoderPersonalizado (poder, efeito, alternativo) {
+function rolarPoderPersonalizado (poder, efeito, ligado) {
   const nomePoder = document.getElementById(`nome-poder-${poder}`).value || "Teste de Poder";
-  const nomeEfeito = document.getElementById(`nome-efeito-${poder}-${efeito}-${alternativo}`).value || "Efeito";
+  const nomeEfeito = document.getElementById(`nome-efeito-${poder}-${efeito}-${ligado}`).value || "Efeito";
   const nomeTeste = `${nomePoder} [${nomeEfeito}]`;
-  testeAtributo(`lvl-efeito-${poder}-${efeito}-${alternativo}`, nomeTeste);
+  testeAtributo(`lvl-efeito-${poder}-${efeito}-${ligado}`, nomeTeste);
 }

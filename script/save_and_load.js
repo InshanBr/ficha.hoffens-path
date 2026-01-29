@@ -58,7 +58,7 @@ function salvarFicha() {
   localStorage.setItem(`contadorVantagens:${nome}`, contadorVantagens);
   localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(contadorModificadores));
   localStorage.setItem(`contadorEfeitos:${nome}`, JSON.stringify(contadorEfeitos));
-  localStorage.setItem(`contadorEfeitosAlternativos:${nome}`, JSON.stringify(contadorEfeitosAlternativos));
+  localStorage.setItem(`contadorEfeitosLigados:${nome}`, JSON.stringify(contadorEfeitosLigados));
   localStorage.setItem(`contadorPoderes:${nome}`, contadorPoderes);
   localStorage.setItem(`contadorEquipamento:${nome}`, contadorEquipamento);
 
@@ -86,7 +86,7 @@ function carregarFicha(nome) {
 
   const nPoderes = JSON.parse(localStorage.getItem(`contadorPoderes:${nome}`)) || 0;
   const nEfeitos = JSON.parse(localStorage.getItem(`contadorEfeitos:${nome}`)) || [];
-  const nEfeitosAlternativos = JSON.parse(localStorage.getItem(`contadorEfeitosAlternativos:${nome}`)) || [];
+  const nEfeitosAlternativos = JSON.parse(localStorage.getItem(`contadorEfeitosLigados:${nome}`)) || [];
   const nModificadores = JSON.parse(localStorage.getItem(`contadorModificadores:${nome}`)) || [];
 
   const listaPoderes = document.getElementById("lista-poderes");
@@ -94,7 +94,7 @@ function carregarFicha(nome) {
 
   contadorPoderes = 0;
   contadorEfeitos = [];
-  contadorEfeitosAlternativos = [];
+  contadorEfeitosLigados = [];
   contadorModificadores = [];
 
   for (let i = 0; i < nPoderes; i++) {
@@ -120,7 +120,7 @@ function carregarFicha(nome) {
       }
 
       for (let l = 0; l < qtdAlternativos; l++) {
-        adicionarAlternativo(i+1, j+1);
+        adicionarLigado(i+1, j+1);
 
         let qtdModsAlt = 0;
         if (nModificadores[i+1] && nModificadores[i+1][j+1]) {
@@ -169,7 +169,7 @@ function deletarFicha() {
   localStorage.removeItem(`contadorVantagens:${nome}`);
   localStorage.removeItem(`contadorEquipamento:${nome}`);
   localStorage.removeItem(`contadorModificadores:${nome}`);
-  localStorage.removeItem(`contadorEfeitosAlternativos:${nome}`);
+  localStorage.removeItem(`contadorEfeitosLigados:${nome}`);
   localStorage.removeItem(`contadorEfeitos:${nome}`);
   localStorage.removeItem(`contadorPoderes:${nome}`);
 
@@ -243,7 +243,7 @@ function exportarFicha() {
     contadorPoderes,
     contadorEfeitos,
     contadorModificadores,
-    contadorEfeitosAlternativos,
+    contadorEfeitosLigados,
     contadorEquipamento
   };
 
@@ -272,7 +272,7 @@ function importarFicha(event) {
     const nVantagens = json.contadorVantagens || 0;
     const nPoderes = json.contadorPoderes || 0;
     const nEfeitos = json.contadorEfeitos || [];
-    const nEfeitosAlternativos = json.contadorEfeitosAlternativos || [];
+    const nEfeitosAlternativos = json.contadorEfeitosLigados || [];
     const nModificadores = json.contadorModificadores || [];
     const nEquipamentos = json.contadorEquipamento || 0;
 
@@ -282,7 +282,7 @@ function importarFicha(event) {
     localStorage.setItem(`contadorVantagens:${nome}`, nVantagens);
     localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(nModificadores));
     localStorage.setItem(`contadorEfeitos:${nome}`, JSON.stringify(nEfeitos));
-    localStorage.setItem(`contadorEfeitosAlternativos:${nome}`, JSON.stringify(nEfeitosAlternativos));
+    localStorage.setItem(`contadorEfeitosLigados:${nome}`, JSON.stringify(nEfeitosAlternativos));
     localStorage.setItem(`contadorPoderes:${nome}`, nPoderes);
     localStorage.setItem(`contadorEquipamento:${nome}`, nEquipamentos);
 

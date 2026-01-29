@@ -1,6 +1,6 @@
 let contadorPoderes = 0;
 let contadorEfeitos = [];
-let contadorEfeitosAlternativos = [];
+let contadorEfeitosLigados = [];
 let contadorModificadores = [];
 let contadorVantagens = 0;
 
@@ -8,7 +8,7 @@ let contadorVantagens = 0;
 function adicionarPoder() {
   contadorPoderes++;
   contadorEfeitos[contadorPoderes] = 0;
-  contadorEfeitosAlternativos[contadorPoderes] = [];
+  contadorEfeitosLigados[contadorPoderes] = [];
   contadorModificadores[contadorPoderes] = [];
 
   const listaPoderes = document.getElementById("lista-poderes");
@@ -75,7 +75,7 @@ function removerPoder (poder) {
     poderRemover.remove();
     contadorModificadores.splice(poder,1);
     contadorEfeitos.splice(poder,1);
-    contadorEfeitosAlternativos.splice(poder, 1)
+    contadorEfeitosLigados.splice(poder, 1)
     contadorPoderes--;
   }
 
@@ -133,13 +133,13 @@ function removerPoder (poder) {
 
       reindexarModificadores(listaModif, indexPoder+1, indexEfeito+1, 0);
       
-      const listaAlt = linhaEfeito.querySelector(".lista-alternativos");
-      listaAlt.id = `lista-alternativos-${indexPoder+1}-${indexEfeito+1}`;
+      const listaAlt = linhaEfeito.querySelector(".lista-ligados");
+      listaAlt.id = `lista-ligados-${indexPoder+1}-${indexEfeito+1}`;
 
-      listaAlt.querySelectorAll(".alternativos-linha").forEach((alternativo, indexAlt) => {
-        atualizarAtributosAlternativo(alternativo, indexPoder+1, indexEfeito+1, indexAlt+1);
+      listaAlt.querySelectorAll(".ligados-linha").forEach((ligado, indexAlt) => {
+        atualizarAtributosLigado(ligado, indexPoder+1, indexEfeito+1, indexAlt+1);
 
-        const modifAlt = alternativo.querySelector(".lista-modificadores");
+        const modifAlt = ligado.querySelector(".lista-modificadores");
         reindexarModificadores(modifAlt, indexPoder+1, indexEfeito+1, indexAlt+1);
       });
     });
@@ -187,39 +187,49 @@ function ocultarDetalhesPoder(poderId) {
 
 function adicionarEfeito(poder) {
   contadorEfeitos[poder]++;
-  contadorEfeitosAlternativos[poder][contadorEfeitos[poder]] = 0;
+  contadorEfeitosLigados[poder][contadorEfeitos[poder]] = 0;
   contadorModificadores[poder][contadorEfeitos[poder]] = [];
-  contadorModificadores[poder][contadorEfeitos[poder]][contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]] = 0;
+  contadorModificadores[poder][contadorEfeitos[poder]][contadorEfeitosLigados[poder][contadorEfeitos[poder]]] = 0;
   
   const listaEfeitos = document.getElementById(`lista-efeitos-${poder}`);
+
+  if (contadorEfeitos[poder] == 2) {
+    const cabecalho = document.createElement("div");
+    cabecalho.className = "span-6";
+    cabecalho.style = "margin-top: 2px;"
+    cabecalho.innerHTML = `
+      <label for="">Efeitos Alternativos</label>
+    `;
+    listaEfeitos.appendChild(cabecalho);
+  }
   
   const novoEfeito = document.createElement("div");
   novoEfeito.className = "efeitos-linha item-conectado";
   novoEfeito.id = `efeito-${poder}-${contadorEfeitos[poder]}`;
   novoEfeito.innerHTML = `
-    <button class="botao-img" onclick="adicionarModificadores(${poder},${contadorEfeitos[poder]},${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})" title="Adicionar Modificador ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}">
+    <button class="botao-img" onclick="adicionarModificadores(${poder},${contadorEfeitos[poder]},${contadorEfeitosLigados[poder][contadorEfeitos[poder]]})" title="Adicionar Modificador ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}">
       <img src="img/rubiks-cube.png" alt="Adicionar modificador">
     </button>
 
-    <button class="botao-img" title="Adicionar Efeito Ligado ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}" onclick="adicionarAlternativo(${poder},${contadorEfeitos[poder]})" id="alternativo-efeito-${contadorEfeitos[poder]}">
-      <img src="img/linked-rings.png" alt="Adicionar Efeito Alternativo">
+    <button class="botao-img" title="Adicionar Efeito Ligado ao Efeito ${contadorEfeitos[poder]} do Poder ${poder}" onclick="adicionarLigado(${poder},${contadorEfeitos[poder]})" id="ligado-efeito-${contadorEfeitos[poder]}">
+      <img src="img/linked-rings.png" alt="Adicionar Efeito Ligado">
     </button>
 
-    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${contadorEfeitos[poder]}, ${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]})">
+    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${contadorEfeitos[poder]}, ${contadorEfeitosLigados[poder][contadorEfeitos[poder]]})">
       <img src="img/d20.png" alt="Rolar teste de Poder">
     </button>
 
-    <input type="number" name="lvl-efeito" id="lvl-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="dependente" placeholder="NVL">
+    <input type="number" name="lvl-efeito" id="lvl-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosLigados[poder][contadorEfeitos[poder]]}" class="dependente" placeholder="NVL">
     <input type="number" name="custo-efeito" id="custo-efeito-${poder}-${contadorEfeitos[poder]}" class="dependente" placeholder ="CST">
-    <input type="text" name="nome-efeito" id="nome-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" placeholder="Efeito ${contadorEfeitos[poder]}">
+    <input type="text" name="nome-efeito" id="nome-efeito-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosLigados[poder][contadorEfeitos[poder]]}" placeholder="Efeito ${contadorEfeitos[poder]}">
     <div class="small-number">
       <input type="number" id="pontos-efeito-${poder}-${contadorEfeitos[poder]}" name="pontos-efeito"  style="font-size: 20px;" readonly>
     </div>
 
-    <div id="lista-modificadores-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosAlternativos[poder][contadorEfeitos[poder]]}" class="span-6 lista-modificadores hierarquia-container">
+    <div id="lista-modificadores-${poder}-${contadorEfeitos[poder]}-${contadorEfeitosLigados[poder][contadorEfeitos[poder]]}" class="span-6 lista-modificadores hierarquia-container">
     </div>
 
-    <div id="lista-alternativos-${poder}-${contadorEfeitos[poder]}" class="span-7 lista-alternativos hierarquia-container">
+    <div id="lista-ligados-${poder}-${contadorEfeitos[poder]}" class="span-7 lista-ligados hierarquia-container">
     </div>
   `;
   
@@ -229,47 +239,37 @@ function adicionarEfeito(poder) {
   alternarBotaoEfeito();
 }
 
-function adicionarAlternativo(poder, efeito) {
-  contadorEfeitosAlternativos[poder][efeito]++;
-  contadorModificadores[poder][efeito][contadorEfeitosAlternativos[poder][efeito]] = 0;
+function adicionarLigado(poder, efeito) {
+  contadorEfeitosLigados[poder][efeito]++;
+  contadorModificadores[poder][efeito][contadorEfeitosLigados[poder][efeito]] = 0;
 
-  const listaAlternativos = document.getElementById(`lista-alternativos-${poder}-${efeito}`);
+  const listaLigados = document.getElementById(`lista-ligados-${poder}-${efeito}`);
 
-  if (contadorEfeitosAlternativos[poder][efeito] == 1) {
-    const cabecalho = document.createElement("div");
-    cabecalho.className = "span-6";
-    cabecalho.style = "margin-top: 2px;"
-    cabecalho.innerHTML = `
-      <label for="">Efeitos Alternativos</label>
-    `;
-    listaAlternativos.appendChild(cabecalho);
-  }
-
-  const novoAlternativo = document.createElement("div");
-  novoAlternativo.className = "alternativos-linha item-conectado";
-  novoAlternativo.id = `alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}`;
-  novoAlternativo.innerHTML = `
-    <button class="botao-img" onclick="adicionarModificadores(${poder},${efeito},${contadorEfeitosAlternativos[poder][efeito]})" title="Adicionar Modificador ao ${contadorEfeitosAlternativos[poder][efeito]}º Efeito Ligado ao Efeito ${efeito} do Poder ${poder}">
+  const novoLigado = document.createElement("div");
+  novoLigado.className = "ligados-linha item-conectado";
+  novoLigado.id = `ligado-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}`;
+  novoLigado.innerHTML = `
+    <button class="botao-img" onclick="adicionarModificadores(${poder},${efeito},${contadorEfeitosLigados[poder][efeito]})" title="Adicionar Modificador ao ${contadorEfeitosLigados[poder][efeito]}º Efeito Ligado ao Efeito ${efeito} do Poder ${poder}">
       <img src="img/rubiks-cube.png" alt="Adicionar modificador">
     </button>
     <br>
 
-    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${efeito}, ${contadorEfeitosAlternativos[poder][efeito]})">
-      <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}">
+    <button class="botao-rolar" onclick="rolarPoderPersonalizado(${poder}, ${efeito}, ${contadorEfeitosLigados[poder][efeito]})">
+      <img src="img/d20.png" alt="Rolar teste de Poder" id="teste-ligado-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}">
     </button>
     
-    <input type="number" name="lvl-alternativo" id="lvl-efeito-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="NVL">
-    <input type="number" name="custo-alternativo" id="custo-efeito-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="dependente" placeholder="CST">
-    <input type="text" name="nome-alternativo" id="nome-efeito-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" placeholder="${contadorEfeitosAlternativos[poder][efeito]}º Efeito Ligado ao Efeito ${efeito}">
+    <input type="number" name="lvl-ligado" id="lvl-efeito-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}" class="dependente" placeholder="NVL">
+    <input type="number" name="custo-ligado" id="custo-efeito-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}" class="dependente" placeholder="CST">
+    <input type="text" name="nome-ligado" id="nome-efeito-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}" placeholder="${contadorEfeitosLigados[poder][efeito]}º Efeito Ligado ao Efeito ${efeito}">
     <div class="small-number">
-      <input type="number" id="pontos-alternativo-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" name="pontos-alternativo"  style="font-size: 20px;" readonly>
+      <input type="number" id="pontos-ligado-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}" name="pontos-ligado"  style="font-size: 20px;" readonly>
     </div>
 
-    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosAlternativos[poder][efeito]}" class="span-6 hierarquia-container lista-modificadores">
+    <div id="lista-modificadores-${poder}-${efeito}-${contadorEfeitosLigados[poder][efeito]}" class="span-6 hierarquia-container lista-modificadores">
     </div>
   `;
 
-  listaAlternativos.appendChild(novoAlternativo);
+  listaLigados.appendChild(novoLigado);
   trocaTema();
   recalcularTudo();
 }
@@ -284,13 +284,13 @@ function removerEfeitos(poder) {
   efeitosDom.forEach(efeitoEl => {
     limparModificadoresVazios(efeitoEl);
 
-    const alternativosDom = efeitoEl.querySelectorAll(".alternativos-linha");
-    alternativosDom.forEach(altEl => {
-      limparModificadoresVazios(altEl);
+    const ligadosDom = efeitoEl.querySelectorAll(".ligados-linha");
+    ligadosDom.forEach(ligEl => {
+      limparModificadoresVazios(ligEl);
 
-      const inputNomeAlt = altEl.querySelector("input[name='nome-alternativo']");
-      if (!inputNomeAlt || inputNomeAlt.value.trim() === "") {
-        altEl.remove();
+      const inputNomeLig = ligEl.querySelector("input[name='nome-ligado']");
+      if (!inputNomeLig || inputNomeLig.value.trim() === "") {
+        ligEl.remove();
       }
     });
 
@@ -301,16 +301,21 @@ function removerEfeitos(poder) {
   });
 
   contadorEfeitos[poder] = 0;
-  contadorEfeitosAlternativos[poder] = []; 
+  contadorEfeitosLigados[poder] = []; 
   contadorModificadores[poder] = []; 
   
   const efeitosRestantes = listaEfeitos.querySelectorAll(".efeitos-linha");
+
+  if (efeitosRestantes.length < 2) {
+      const headerAlt = listaEfeitos.querySelector("div:not(.efeitos-linha)");
+      if(headerAlt && headerAlt.innerText.includes("Efeitos Alternativos")) headerAlt.remove();
+    }
   
   efeitosRestantes.forEach((efeitoEl, indexEfeitoZero) => {
     const indexEf = indexEfeitoZero + 1;
     contadorEfeitos[poder] = indexEf;
     
-    contadorEfeitosAlternativos[poder][indexEf] = 0;
+    contadorEfeitosLigados[poder][indexEf] = 0;
     contadorModificadores[poder][indexEf] = []; 
     contadorModificadores[poder][indexEf][0] = 0;
     
@@ -324,30 +329,25 @@ function removerEfeitos(poder) {
       reindexarModificadores(listaModifPrincipal, poder, indexEf, 0);
     }
 
-    const listaAlternativosContainer = efeitoEl.querySelector(".lista-alternativos");
-    if(listaAlternativosContainer) {
-      listaAlternativosContainer.id = `lista-alternativos-${poder}-${indexEf}`;
+    const listaLigadosContainer = efeitoEl.querySelector(".lista-ligados");
+    if(listaLigadosContainer) {
+      listaLigadosContainer.id = `lista-ligados-${poder}-${indexEf}`;
     }
 
-    const alternativosRestantes = efeitoEl.querySelectorAll(".alternativos-linha");
+    const ligadosRestantes = efeitoEl.querySelectorAll(".ligados-linha");
     
-    if (alternativosRestantes.length === 0) {
-      const headerAlt = listaAlternativosContainer.querySelector("div:not(.alternativos-linha)");
-      if(headerAlt && headerAlt.innerText.includes("Efeitos Alternativos")) headerAlt.remove();
-    }
-    
-    alternativosRestantes.forEach((altEl, indexAltZero) => {
-      const indexAlt = indexAltZero + 1;
-      contadorEfeitosAlternativos[poder][indexEf] = indexAlt;
-      contadorModificadores[poder][indexEf][indexAlt] = 0;
+    ligadosRestantes.forEach((ligEl, indexLigZero) => {
+      const indexLig = indexLigZero + 1;
+      contadorEfeitosLigados[poder][indexEf] = indexLig;
+      contadorModificadores[poder][indexEf][indexLig] = 0;
 
-      altEl.id = `alternativo-${poder}-${indexEf}-${indexAlt}`;
+      ligEl.id = `ligado-${poder}-${indexEf}-${indexLig}`;
 
-      atualizarAtributosAlternativo(altEl, poder, indexEf, indexAlt);
-      const listaModifAlt = altEl.querySelector(".lista-modificadores");
+      atualizarAtributosLigado(ligEl, poder, indexEf, indexLig);
+      const listaModifAlt = ligEl.querySelector(".lista-modificadores");
       if(listaModifAlt) {
-        listaModifAlt.id = `lista-modificadores-${poder}-${indexEf}-${indexAlt}`;
-        reindexarModificadores(listaModifAlt, poder, indexEf, indexAlt);
+        listaModifAlt.id = `lista-modificadores-${poder}-${indexEf}-${indexLig}`;
+        reindexarModificadores(listaModifAlt, poder, indexEf, indexLig);
       }
     });
   });
@@ -377,7 +377,7 @@ function limparModificadoresVazios(container) {
   }
 }
 
-function reindexarModificadores(containerModificadores, poder, efeito, alternativo) {
+function reindexarModificadores(containerModificadores, poder, efeito, ligado) {
     const modificadores = containerModificadores.querySelectorAll(".modificadores-linha");
     let contadorReal = 0;
     
@@ -385,50 +385,50 @@ function reindexarModificadores(containerModificadores, poder, efeito, alternati
         if (!linha.querySelector("input")) return;
 
         contadorReal++;
-        contadorModificadores[poder][efeito][alternativo] = contadorReal;
+        contadorModificadores[poder][efeito][ligado] = contadorReal;
         
 
         const custo = linha.querySelector("input[name='custo-modificador']");
         const tipo = linha.querySelector("select[name='tipo-modificador']");
         const nome = linha.querySelector("input[name='nome-modificador']");
 
-        if (custo) custo.id = `custo-modificador-${poder}-${efeito}-${alternativo}-${contadorReal}`;
-        if (tipo) tipo.id = `tipo-modificador-${poder}-${efeito}-${alternativo}-${contadorReal}`;
+        if (custo) custo.id = `custo-modificador-${poder}-${efeito}-${ligado}-${contadorReal}`;
+        if (tipo) tipo.id = `tipo-modificador-${poder}-${efeito}-${ligado}-${contadorReal}`;
         if (nome) {
-            nome.id = `nome-modificador-${poder}-${efeito}-${alternativo}-${contadorReal}`;
+            nome.id = `nome-modificador-${poder}-${efeito}-${ligado}-${contadorReal}`;
             nome.placeholder = `Modificador ${contadorReal} do efeito ${efeito}`;
         }
     });
 }
 
-function atualizarAtributosEfeito(el, poder, indexEf, indexAlt) {
+function atualizarAtributosEfeito(el, poder, indexEf, indexLig) {
     const btnAddMod = el.querySelector("button[onclick^='adicionarModificadores']");
     if(btnAddMod) {
-        btnAddMod.setAttribute("onclick", `adicionarModificadores(${poder}, ${indexEf}, ${indexAlt})`);
+        btnAddMod.setAttribute("onclick", `adicionarModificadores(${poder}, ${indexEf}, ${indexLig})`);
         btnAddMod.title = `Adicionar Modificador ao Efeito ${indexEf} do Poder ${poder}`;
     }
 
-    const btnAddAlt = el.querySelector("button[onclick^='adicionarAlternativo']");
-    if(btnAddAlt) {
-        btnAddAlt.id = `alternativo-efeito-${indexEf}`;
-        btnAddAlt.setAttribute("onclick", `adicionarAlternativo(${poder}, ${indexEf})`);
-        btnAddAlt.title = `Adicionar Efeito Alternativo a Efeito ${indexEf}`;
+    const btnAddLig = el.querySelector("button[onclick^='adicionarLigado']");
+    if(btnAddLig) {
+        btnAddLig.id = `ligado-efeito-${indexEf}`;
+        btnAddLig.setAttribute("onclick", `adicionarLigado(${poder}, ${indexEf})`);
+        btnAddLig.title = `Adicionar Efeito Ligado ao Efeito ${indexEf}`;
     }
     
     const btnRolar = el.querySelector("button[onclick^='rolarPoderPersonalizado']");
     if(btnRolar) {
-        btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexAlt})`);
+        btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexLig})`);
     }
 
     const lvl = el.querySelector("input[name='lvl-efeito']");
-    if(lvl) lvl.id = `lvl-efeito-${poder}-${indexEf}-${indexAlt}`;
+    if(lvl) lvl.id = `lvl-efeito-${poder}-${indexEf}-${indexLig}`;
 
     const custo = el.querySelector("input[name='custo-efeito']");
     if(custo) custo.id = `custo-efeito-${poder}-${indexEf}`;
 
     const nome = el.querySelector("input[name='nome-efeito']");
     if(nome) {
-        nome.id = `nome-efeito-${poder}-${indexEf}-${indexAlt}`;
+        nome.id = `nome-efeito-${poder}-${indexEf}-${indexLig}`;
         nome.placeholder = `Efeito ${indexEf}`;
     }
 
@@ -436,40 +436,40 @@ function atualizarAtributosEfeito(el, poder, indexEf, indexAlt) {
     if(pontos) pontos.id = `pontos-efeito-${poder}-${indexEf}`;
 }
 
-function atualizarAtributosAlternativo(el, poder, indexEf, indexAlt) {
+function atualizarAtributosLigado(el, poder, indexEf, indexLig) {
     const btnAddMod = el.querySelector("button[onclick^='adicionarModificadores']");
     if(btnAddMod) {
-        btnAddMod.setAttribute("onclick", `adicionarModificadores(${poder}, ${indexEf}, ${indexAlt})`);
-        btnAddMod.title = `Adicionar Modificador ao Efeito Alternativo ${indexAlt} do Efeito ${indexEf}`;
+        btnAddMod.setAttribute("onclick", `adicionarModificadores(${poder}, ${indexEf}, ${indexLig})`);
+        btnAddMod.title = `Adicionar Modificador ao ${indexLig}º Efeito Ligado do Efeito ${indexEf}`;
     }
 
     const btnRolar = el.querySelector("button[onclick^='rolarPoderPersonalizado']");
     if(btnRolar) {
-        btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexAlt})`);
+        btnRolar.setAttribute("onclick", `rolarPoderPersonalizado(${poder}, ${indexEf}, ${indexLig})`);
     }
 
-    const lvl = el.querySelector("input[name='lvl-alternativo']");
-    if(lvl) lvl.id = `lvl-efeito-${poder}-${indexEf}-${indexAlt}`; // Mantendo padrão do seu HTML original
+    const lvl = el.querySelector("input[name='lvl-ligado']");
+    if(lvl) lvl.id = `lvl-efeito-${poder}-${indexEf}-${indexLig}`;
 
-    const custo = el.querySelector("input[name='custo-alternativo']");
-    if(custo) custo.id = `custo-efeito-${poder}-${indexEf}-${indexAlt}`;
+    const custo = el.querySelector("input[name='custo-ligado']");
+    if(custo) custo.id = `custo-efeito-${poder}-${indexEf}-${indexLig}`;
 
-    const nome = el.querySelector("input[name='nome-alternativo']");
+    const nome = el.querySelector("input[name='nome-ligado']");
     if(nome) {
-        nome.id = `nome-efeito-${poder}-${indexEf}-${indexAlt}`;
-        nome.placeholder = `Efeito Alternativo ${indexAlt} do Efeito ${indexEf}`;
+        nome.id = `nome-efeito-${poder}-${indexEf}-${indexLig}`;
+        nome.placeholder = `Efeito Alternativo ${indexLig} do Efeito ${indexEf}`;
     }
 
-    const pontos = el.querySelector("input[name='pontos-alternativo']");
-    if(pontos) pontos.id = `pontos-alternativo-${poder}-${indexEf}-${indexAlt}`;
+    const pontos = el.querySelector("input[name='pontos-ligado']");
+    if(pontos) pontos.id = `pontos-ligado-${poder}-${indexEf}-${indexLig}`;
 }
 
-function adicionarModificadores(poder, efeito, alternativo) {
-  contadorModificadores[poder][efeito][alternativo]++;
+function adicionarModificadores(poder, efeito, ligado) {
+  contadorModificadores[poder][efeito][ligado]++;
 
-  const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${alternativo}`);
+  const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${ligado}`);
   
-  if (contadorModificadores[poder][efeito][alternativo] == 1) {
+  if (contadorModificadores[poder][efeito][ligado] == 1) {
     const cabecalho = document.createElement("div");
     cabecalho.className = "modificadores-linha span-6";
     cabecalho.style = "margin-bottom: 0px;"
@@ -486,13 +486,13 @@ function adicionarModificadores(poder, efeito, alternativo) {
   novaLinha.className = "modificadores-linha span-6 item-conectado";
   novaLinha.innerHTML = `
     <br>
-    <input type="number" id="custo-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" name="custo-modificador" class="dependente" placeholder="Custo">
-    <select name="tipo-modificador" id="tipo-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" class="dependente">
+    <input type="number" id="custo-modificador-${poder}-${efeito}-${ligado}-${contadorModificadores[poder][efeito]}" name="custo-modificador" class="dependente" placeholder="Custo">
+    <select name="tipo-modificador" id="tipo-modificador-${poder}-${efeito}-${ligado}-${contadorModificadores[poder][efeito]}" class="dependente">
       <option value="por-nivel">Por Nível</option>
       <option value="fixo-por-nivel">Fixo por Nível</option>
       <option value="fixo">Fixo</option>
     </select>
-    <input type="text" id="nome-modificador-${poder}-${efeito}-${alternativo}-${contadorModificadores[poder][efeito]}" name="nome-modificador" placeholder="Modificador ${contadorModificadores[poder][efeito][alternativo]} do efeito ${efeito}">
+    <input type="text" id="nome-modificador-${poder}-${efeito}-${ligado}-${contadorModificadores[poder][efeito]}" name="nome-modificador" placeholder="Modificador ${contadorModificadores[poder][efeito][ligado]} do efeito ${efeito}">
   `;
   
   listaModificadores.appendChild(novaLinha);
@@ -507,36 +507,14 @@ function custoPoder (poder) {
   if (!efeitoPrincipal) return;
 
   const custoEfeitoPrincipal = efeitoPrincipal.querySelector("input[name='pontos-efeito']");
-  custoEfeitoPrincipal.value = custoEfeitoAlternativo(poder, 1, 0);
+  custoEfeitoPrincipal.value = custoEfeito(poder, 1, 0,'efeito');
   custoPoder += Number(custoEfeitoPrincipal.value) || 0;
   
-  const listaAlternativos = efeitoPrincipal.querySelector(".lista-alternativos");
-  const efeitos = listaAlternativos.querySelectorAll(".alternativos-linha");
+  const listaLigados = efeitoPrincipal.querySelector(".lista-ligados");
+  const efeitosLigados = listaLigados.querySelectorAll(".ligados-linha");
   
-  efeitos.forEach(efeito => {
-    
-    const nivel = Number(efeito.querySelector("input[name='lvl-alternativo']").value) || 0;
-    var custoPorNivel = Number(efeito.querySelector("input[name='custo-alternativo']").value) || 0;
-    var fixo = 0;
-    
-    const listaModificadores = efeito.querySelector(".lista-modificadores");
-    modificadores = listaModificadores.querySelectorAll(".modificadores-linha");
-    modificadores.forEach(modificador => {
-      
-      const tipoModif = modificador.querySelector("select[name='tipo-modificador']");
-      if(!tipoModif) return;
-      const custoModif = Number(modificador.querySelector("input[name='custo-modificador']").value) || 0;
-
-      if (tipoModif.value =="por-nivel") {
-        custoPorNivel += custoModif;
-      } else {
-        fixo += custoModif;
-      }
-    });
-    const custoEfeito = custoPorNivel * nivel + fixo;
-    efeito.querySelector("input[name='pontos-alternativo']").value = custoEfeito;
-
-    custoPoder += custoEfeito;
+  efeitosLigados.forEach((ligado, index_ligado) => {
+    custoPoder += custoEfeito(poder, 1, index_ligado+1, 'ligado');
   });
 
   return custoPoder;
@@ -552,18 +530,24 @@ function calcularCustoPoderes () {
   document.getElementById("total-pontos-poderes").value = custoPoderes;
 }
 
-function custoEfeitoAlternativo (poder, efeito, alternativo) {
+function custoEfeito (poder, efeito, ligado, tipo) {
   
   const poderEl = document.getElementById(`poder-${poder}`);
   if(!poderEl) return 0;
+  var nome;
+  if (tipo == 'efeito') {
+    nome = `efeito-${poder}-${efeito}`;
+  } else if(tipo === 'ligado') {
+    nome = `ligado-${poder}-${efeito}-${ligado}`
+  }
   
-  const efAlternativoEl = document.getElementById(`efeito-${poder}-${efeito}`);
+  const efeitoEl = document.getElementById(nome);
   
-  const nivel = Number(efAlternativoEl.querySelector("input[name='lvl-efeito']").value) || 0;
-  var custoPorNivel = Number(efAlternativoEl.querySelector("input[name='custo-efeito']").value) || 0;
+  const nivel = Number(efeitoEl.querySelector(`input[name='lvl-${tipo}']`).value) || 0;
+  var custoPorNivel = Number(efeitoEl.querySelector(`input[name='custo-${tipo}']`).value) || 0;
   var fixo = 0;
   
-  const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${alternativo}`);
+  const listaModificadores = document.getElementById(`lista-modificadores-${poder}-${efeito}-${ligado}`);
   modificadores = listaModificadores.querySelectorAll(".modificadores-linha");
   modificadores.forEach(modificador => {
     
@@ -577,7 +561,17 @@ function custoEfeitoAlternativo (poder, efeito, alternativo) {
       fixo += custoModif;
     }
   });
-  const custoEfeito = custoPorNivel * nivel + fixo;
+  
+  var custoAjustado;
+  if (custoPorNivel-1 < 0) {
+    custoAjustado = Math.pow(2, custoPorNivel-1);
+  } else {
+    custoAjustado = custoPorNivel;
+  }
+
+  const custoEfeito = custoAjustado * nivel + fixo;
+  const inputCusto = efeitoEl.querySelector(`input[name="pontos-${tipo}"]`);
+  inputCusto.value = custoEfeito;
   return custoEfeito;
 }
 
@@ -587,21 +581,21 @@ function calcularCustoEfeitosAlternativos () {
     const poderEl = document.getElementById(`poder-${poder}`);
     const listaEfeitos = poderEl.querySelector(".lista-efeitos");
     const efeitos = listaEfeitos.querySelectorAll(".efeitos-linha");
-
+    
     efeitos.forEach((efeito, index_efeito) => {
       if (index_efeito == 0) return;
-      const custoEfeito = Number(document.getElementById(`pontos-poder-${poder}`).value) || 0;
+      const custoPoder = Number(document.getElementById(`pontos-poder-${poder}`).value) || 0;
       
-      let custo = custoEfeitoAlternativo(poder, index_efeito+1, 0);
-
-      const listaAlternativos = efeito.querySelector(".lista-alternativos");
-      const efeitosAlt = listaAlternativos.querySelectorAll(".alternativos-linha");
-      efeitosAlt.forEach((alternativo, index_alternativo) => {
-        custo += custoEfeitoAlternativo(poder, index_efeito+1, index_alternativo+1);
+      let custo = custoEfeito(poder, index_efeito+1, 0, 'efeito');
+      
+      const listaLigados = efeito.querySelector(".lista-ligados");
+      const efeitosLigados = listaLigados.querySelectorAll(".ligados-linha");
+      efeitosLigados.forEach((ligado, index_ligado) => {
+        custo += custoEfeito(poder, index_efeito+1, index_ligado+1, 'ligado');
       });
 
-      const restanteAlternativo = efeito.querySelector("input[name='pontos-efeito']");
-      restanteAlternativo.value = custoEfeito - custo - contadorEfeitos[poder] + 1;
+      const restanteLigado = efeito.querySelector("input[name='pontos-efeito']");
+      restanteLigado.value = custoPoder - custo - contadorEfeitos[poder] + 1;
     });
   }
 }

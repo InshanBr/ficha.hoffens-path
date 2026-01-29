@@ -986,7 +986,7 @@ span {
   grid-template-columns: 5% 5% 2% 5% 5% 48% 5%;
 }
 
-.alternativos-linha {
+.ligados-linha {
   align-items: center;
   display: grid;
   column-gap: 20px;
