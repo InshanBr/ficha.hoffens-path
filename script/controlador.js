@@ -79,6 +79,10 @@ function recalcularTudo() {
   calcularPontosEquipamento();
   calcularCustoEquipamento();
   calcularTotalPontos();
+
+  copiaValor("vida", "vida-maxima-combate");
+  copiaValor("estamina", "estamina-maxima-combate");
+  calcularDeslocamento("nivel-deslocamento", "deslocamento-combate");
 }
 
 
@@ -97,6 +101,18 @@ function atualizarBarra(corrupcao, max) {
   }else if(percentual >= 1){
     barra.style.background = "rgb(255,0,0)";
   }
+}
+
+function calcularDeslocamento(campo, destino) {
+  const agilidade = parseInt(document.getElementById(campo).value, 10);
+  let deslocamento = 0;
+  if(agilidade >= 0){
+    deslocamento = (agilidade + 1)*1.5;
+  }else if(agilidade < 0){
+    deslocamento = Math.pow(2, agilidade+1);
+    deslocamento = deslocamento.toFixed(2)
+  }
+  document.getElementById(destino).value = deslocamento + " m";
 }
 
 function calcularCustoHabilidades () {

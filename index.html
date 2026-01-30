@@ -252,25 +252,12 @@
               <img src="img/d20.png" alt="Rolar teste de Agilidade" id="teste-agilidade">
             </button>
             <label for="agilidade">Agilidade</label><br>
-            <input class="dependente habilidade" type="number" id="agilidade" oninput="calcularDeslocamento()">
+            <input class="dependente habilidade" type="number" id="agilidade" oninput="calcularDeslocamento('agilidade', 'deslocamento')">
           </div>
 
           <div class="sub-hab">
             <label for="deslocamento">Deslocamento</label><br>
             <input type="text" id="deslocamento" readonly>
-            <script>
-              function calcularDeslocamento() {
-                const agilidade = parseInt(document.getElementById("agilidade").value, 10);
-                let deslocamento = 0;
-                if(agilidade >= 0){
-                  deslocamento = (agilidade + 1)*1.5;
-                }else if(agilidade < 0){
-                  deslocamento = Math.pow(2, agilidade+1);
-                  deslocamento = deslocamento.toFixed(2)
-                }
-                document.getElementById("deslocamento").value = deslocamento + " m";
-              }
-            </script>
           </div>
 
           <div class="hability stat">
@@ -1391,23 +1378,53 @@
 
   <div class="sheet" id="ficha-combate">
     <div class="bloco combate">
-      <h1>Combate</h1>
-      <br>
-      <div id="personagem-combate">
 
-        <img src="img/Verdant_semOculos.png" alt="Icone Peronsagem">
+      <h1 class="span-2">Combate</h1>
 
-        <div id="status-combate">
-
+      <div id="status-combate">
+        <div id="personagem-combate">
+          <img src="img/Verdant_semOculos.png" alt="icone-personagem">
+          <input type="text" id="personagem-combate" placeholder="Verdant" readonly>
         </div>
 
-        <div id="vida-estamina-combate" class="span-2">
-          <input type="number" id="vida-atual-combate" placeholder="Vida" class="input-combate">
-          <input type="number" id="vida-maxima-combate" class="maximo-combate" readonly>
-          <input type="number" id="estamina-atual-combate" placeholder="Est." class="input-combate">
-          <input type="number" id="estamina-maxima-combate" class="maximo-combate" readonly>
+        <div class="linha-combate">
+          <label for="vida-combate">Vida</label>
+          <input type="number" id="vida-combate" class="campo-editavel dependente">
+          <label for="vida-maxima-combate">
+            / <input type="number" id="vida-maxima-combate" class="campo-calculado" readonly>
+          </label>
+        </div>
+
+        <div class="linha-combate">
+          <label for="estamina-combate">Estamina</label>
+          <input type="number" id="estamina-combate" class="campo-editavel">
+          <label for="estamina-maxima-combate">
+            / <input type="number" id="estamina-maxima-combate" class="campo-calculado" readonly>
+          </label>
+        </div>
+
+        <div class="linha-combate">
+          <label for="nivel-deslocamento">Deslocamento</label>
+          <input type="number" id="nivel-deslocamento" class="campo-editavel dependente">
+          <label for="deslocamento-combate">
+            = <input type="text" id="deslocamento-combate" class="campo-calculado" readonly>
+          </label>
+        </div>
+
+        <div class="linha-combate">
+          <label for="iniciativa" style="display: flex;align-items:center;">Iniciativa 
+            <span style="font-size: 15px;">(Agi)</span>
+          </label>
+
+          <input type="number" id="iniciativa" class="campo-editavel">
+          <button title="Rolar Iniciativa" class="botao-rolar" onclick="testeAtributo('iniciativa','Iniciativa');" style="justify-self: left;">
+            <img src="img/d20.png" alt="Rolar Iniciativa">
+          </button>
         </div>
       </div>
+
+      <div></div>
+
     </div>
   </div>
 

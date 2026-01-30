@@ -1105,11 +1105,17 @@ textarea::placeholder {
   overflow-y: auto;
 }
 
+#status-combate {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: 5px;
+  border: 5px solid var(--cor-secundaria);
+}
 
 #personagem-combate {
-  border: 5px solid var(--cor-secundaria);
-  display: grid;
-  grid-template-columns: 25% 75%;
+  display: flex;
+  background-color: var(--cor-secundaria);
 }
 
 #personagem-combate img {
@@ -1118,38 +1124,54 @@ textarea::placeholder {
   filter: invert(0%);
 }
 
-.margem-combate {
-  width: 45%;
-}
-
-#status-combate {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  position: relative; 
-  width: 100%;
-  padding: 5px;
-  gap: 5px;
-}
-
-.input-combate {
-  font-size: 25px;
-  background-color: var(--cor-campo);
+#personagem-combate input {
+  font-family: BebasNeue;
+  font-size: 30px;
+  background-color: transparent;
   border: none;
+  color: var(--cor-primaria);
+  padding: 5px;
+  max-height: 50px;
+}
+
+.linha-combate {
+  display: grid;
+  grid-template-columns: 20% 40% 40%;
+  align-items: center;
+  gap: 5px;
+  font-size: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  justify-items: left;
+}
+
+.linha-combate input {
+  font-size: 20px;
+  justify-self: right;
+  max-width: 40%;
+}
+
+.linha-combate label {
+  justify-self: left;
+}
+
+.campo-editavel {
+  background-color: var(--cor-campo);
   border-radius: 5px;
+  border: none;
+  width: 100%;
+  padding: 1px;
+  box-sizing: border-box;
   text-align: center;
 }
 
-.maximo-combate {
+.campo-calculado {
+  padding: 1px;
   width: 100%;
   box-sizing: border-box;
-  font-size: 25px;
+  font-size: 15px;
   text-align:center;
+  max-width: 70px;
   border: 2px solid var(--cor-sub);
   background-color: transparent;
-}
-
-#vida-estamina-combate {
-  display: grid; 
-  grid-template-columns: 50% 50%; 
-  gap: 5px;
 }
