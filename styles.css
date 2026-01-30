@@ -1115,7 +1115,6 @@ textarea::placeholder {
 
 #personagem-combate {
   display: flex;
-  background-color: var(--cor-secundaria);
 }
 
 #personagem-combate img {

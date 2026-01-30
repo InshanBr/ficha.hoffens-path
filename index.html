@@ -86,7 +86,7 @@
 
       <div class="field span-2">
         <label for="personagem">Personagem</label>
-        <input type="text" id="personagem">
+        <input type="text" id="personagem" class="dependente">
       </div>
 
       <div class="field span-2">
@@ -1384,7 +1384,9 @@
       <div id="status-combate">
         <div id="personagem-combate">
           <img src="img/Verdant_semOculos.png" alt="icone-personagem">
-          <input type="text" id="personagem-combate" placeholder="Verdant" readonly>
+          <div>
+            <input type="text" id="personagem-nome-combate" placeholder="Personagem" readonly>
+          </div>
         </div>
 
         <div class="linha-combate">

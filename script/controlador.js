@@ -80,6 +80,7 @@ function recalcularTudo() {
   calcularCustoEquipamento();
   calcularTotalPontos();
 
+  copiaValor("personagem", "personagem-nome-combate");
   copiaValor("vida", "vida-maxima-combate");
   copiaValor("estamina", "estamina-maxima-combate");
   calcularDeslocamento("nivel-deslocamento", "deslocamento-combate");

@@ -1,6 +1,6 @@
 
 function copiaValor(fonte, destino) {
-  const valorFonte = Number(document.getElementById(fonte).value) || 0;
+  const valorFonte = document.getElementById(fonte).value
   document.getElementById(destino).value = valorFonte;
 }
 
