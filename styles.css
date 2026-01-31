@@ -1276,3 +1276,23 @@ textarea::placeholder {
   border: 2px solid var(--cor-sub);
   background-color: transparent;
 }
+.subtrair-dano {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 2px;
+}
+
+.subtrair-dano input {
+  font-size: 20px;
+  width: 15%;
+  align-items: center;
+}
+
+.subtrair-dano img:hover {
+  transform: rotate(360deg);
+}
+
+.subtrair-dano img {
+  transition: transform 0.5s ease-out;
+}

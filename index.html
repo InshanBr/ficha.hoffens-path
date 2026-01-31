@@ -1453,7 +1453,20 @@
         </div>
       </div>
 
-      <div></div>
+      <div id="acao-combate">
+        <div class="subtrair-dano">
+          <label for="dano-sofrido">Dano:</label>
+          <input type="number" id="dano-sofrido" class="campo-editavel">
+
+          <label for="pct-reducao">Redução da Estamina (%):</label>
+          <input type="number" id="pct-reducao" class="campo-editavel">
+
+          <button class="botao-img" onclick="subtrairVida('dano-sofrido')">
+            <img src="img/sword-spin.png" alt="Sofrer Dano">
+          </button>
+        </div>
+        
+      </div>
 
     </div>
   </div>
@@ -1610,5 +1623,6 @@
   <script src="script/testes_discord.js"></script>
   <script src="script/save_and_load.js"></script>
   <script src="script/init.js"></script>
+  <script src="script/combate.js"></script>
 </body>
 </html>
