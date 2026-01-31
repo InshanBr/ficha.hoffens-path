@@ -54,3 +54,22 @@ document.addEventListener("click", function (event) {
   // clicou fora de tudo → fecha todos os menus
   menusAbertos.forEach(menu => menu.classList.remove("show"));
 });
+
+function trocarIcon(event) {
+  const arquivo = event.target.files[0];
+  if (!arquivo) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const base64 = e.target.result;
+
+    document.getElementById("personagem-img").src = base64;
+
+    const nome = document.getElementById("personagem").value;
+
+    localStorage.setItem(`icon:${nome}`, base64);
+  };
+
+  reader.readAsDataURL(arquivo);
+}

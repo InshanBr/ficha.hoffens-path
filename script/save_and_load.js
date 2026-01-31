@@ -73,6 +73,13 @@ function carregarFicha(nome) {
   const dados = JSON.parse(localStorage.getItem(`ficha:${nome}`));
   if (!dados) return;
 
+  const iconPersonagem = localStorage.getItem(`icon:${nome}`);
+  if(iconPersonagem) {
+    document.getElementById("personagem-img").src = iconPersonagem;
+  } else {
+    document.getElementById("personagem-img").src = "img/character.png";
+  }
+
   const nVantagens = JSON.parse(localStorage.getItem(`contadorVantagens:${nome}`));
 
   const listaVantagens = document.getElementById("lista-vantagens");
@@ -160,7 +167,6 @@ function carregarFicha(nome) {
   recalcularTudo();
 }
 
-
 function deletarFicha() {
 
   const nome = document.getElementById("personagem").value;
@@ -199,6 +205,8 @@ function limparFicha() {
       el.value = "";
     }
   });
+
+  document.getElementById("personagem-img").src = "img/character.png";
 
   contadorVantagens = 0;
   const listaVantagens = document.getElementById("lista-vantagens");
