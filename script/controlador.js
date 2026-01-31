@@ -89,6 +89,7 @@ function recalcularTudo() {
   atualizarPercentual("percentual-vida", "vida-combate", "vida-maxima-combate");
   atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
   atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
+  calculoEsforcoExtra();
 }
 
 

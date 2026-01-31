@@ -1228,7 +1228,7 @@ textarea::placeholder {
 
 .linha-combate {
   display: grid;
-  grid-template-columns: 20% 40% 40%;
+  grid-template-columns: 40% 30% 30%;
   align-items: center;
   gap: 5px;
   font-size: 30px;
@@ -1249,11 +1249,12 @@ textarea::placeholder {
 .linha-combate input {
   font-size: 20px;
   justify-self: right;
-  max-width: 40%;
+  max-width: 50%;
 }
 
 .linha-combate label {
   justify-self: left;
+  white-space: nowrap;
 }
 
 .campo-editavel {
@@ -1295,4 +1296,15 @@ textarea::placeholder {
 
 .subtrair-dano img {
   transition: transform 0.5s ease-out;
+}
+
+#esforco-20, #esforco-50 {
+  cursor: pointer;
+  transition: all 0.5s ease;
+  box-sizing: border-box;
+}
+
+.linha-combate:hover #esforco-20,
+.linha-combate:hover #esforco-50 {
+  background-color: var(--cor-campo);
 }
