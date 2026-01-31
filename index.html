@@ -450,10 +450,10 @@
                 const corrupcao = document.getElementById("corrupcao");
                 const max = document.getElementById("corrupcao-maximo");
 
-                corrupcao.addEventListener("input", () => atualizarBarra(corrupcao, max));
-                max.addEventListener("input", () => atualizarBarra(corrupcao, max));
+                corrupcao.addEventListener("change", () => atualizarBarraCorrupcao(corrupcao, max));
+                max.addEventListener("change", () => atualizarBarraCorrupcao(corrupcao, max));
 
-                atualizarBarra();
+                atualizarBarraCorrupcao();
               </script>
             </div>
 
@@ -1395,14 +1395,17 @@
             </label>
           </div>
           
-          <div>
+          <div class="dados-personagem">
             <input type="text" id="personagem-nome-combate" placeholder="Personagem" readonly>
+            <div class="percentual-barra" id="percentual-vida">100%</div>
+            <hr align="left" class="margem-barra" style="height: 15px;">
+            <hr id="barra-vida" align="left" style="position: relative; z-index: 2;margin-left: 2px;">
           </div>
         </div>
 
         <div class="linha-combate">
           <label for="vida-combate">Vida</label>
-          <input type="number" id="vida-combate" class="campo-editavel dependente">
+          <input type="number" id="vida-combate" class="campo-editavel">
           <label for="vida-maxima-combate">
             / <input type="number" id="vida-maxima-combate" class="campo-calculado" readonly>
           </label>
@@ -1418,7 +1421,7 @@
 
         <div class="linha-combate">
           <label for="nivel-deslocamento">Deslocamento</label>
-          <input type="number" id="nivel-deslocamento" class="campo-editavel dependente">
+          <input type="number" id="nivel-deslocamento" class="campo-editavel dependente" placeholder="Nvl">
           <label for="deslocamento-combate">
             = <input type="text" id="deslocamento-combate" class="campo-calculado" readonly>
           </label>

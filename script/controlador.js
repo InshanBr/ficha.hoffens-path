@@ -65,7 +65,7 @@ function recalcularTudo() {
   const max = document.getElementById("corrupcao-maximo");
   
   despertar();
-  atualizarBarra(corrupcao, max);
+  atualizarBarraCorrupcao(corrupcao, max);
   calcularBonusClasse();
   calcularVida();
   calcularEstamina();
@@ -84,10 +84,11 @@ function recalcularTudo() {
   copiaValor("vida", "vida-maxima-combate");
   copiaValor("estamina", "estamina-maxima-combate");
   calcularDeslocamento("nivel-deslocamento", "deslocamento-combate");
+  atualizarBarra("barra-vida","vida-combate", "vida-maxima-combate");
 }
 
 
-function atualizarBarra(corrupcao, max) {
+function atualizarBarraCorrupcao(corrupcao, max) {
   const valor = Number(corrupcao.value) || 0;
   const limite = Number(max.value) || 1;
 
@@ -103,6 +104,50 @@ function atualizarBarra(corrupcao, max) {
     barra.style.background = "rgb(255,0,0)";
   }
 }
+
+function atualizarBarra(barra, atual, maximo) {
+  const barraEl = document.getElementById(barra);
+  const valorAtual = Number(document.getElementById(atual).value) || 0;
+  const valorMaximo = Number(document.getElementById(maximo).value) || 1;
+
+  const percentual = Math.max(0, Math.min(1, (valorAtual / valorMaximo)));
+
+  barraEl.style.width = percentual*100 + "%";
+}
+
+function atualizarPercentual(percentual, atual, maximo) {
+  const divPercentual = document.getElementById(percentual);
+  const valorAtual = Number(document.getElementById(atual).value) || 0;
+  const valorMaximo = Number(document.getElementById(maximo).value) || 1;
+
+  const pctDestino = Math.max(0, Math.min(1, (valorAtual / valorMaximo))) * 100;
+  
+  const startPct = Number(divPercentual.textContent.slice(0,-2)) || 0;
+  const duration = 500;
+  let startTime = null;
+
+  function animate(currentTime) {
+    if (!startTime) startTime = currentTime;
+    const progress = Math.min((currentTime - startTime) / duration, 1);
+    
+    // Linear interpolation: current = start + (target - start) * progress
+    const currentVal = startPct + (pctDestino - startPct) * progress;
+    
+    divPercentual.textContent = currentVal.toFixed(1) + "%";
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+document.getElementById("vida-combate").addEventListener("change", () => {
+  atualizarBarra("barra-vida","vida-combate", "vida-maxima-combate");
+  atualizarPercentual("percentual-vida", "vida-combate", "vida-maxima-combate");
+});
+
 
 function calcularDeslocamento(campo, destino) {
   const agilidade = parseInt(document.getElementById(campo).value, 10);
