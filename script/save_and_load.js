@@ -178,6 +178,7 @@ function deletarFicha() {
   localStorage.removeItem(`contadorEfeitosLigados:${nome}`);
   localStorage.removeItem(`contadorEfeitos:${nome}`);
   localStorage.removeItem(`contadorPoderes:${nome}`);
+  localStorage.removeItem(`icon:${nome}`);
 
   const index = getIndex().filter(n => n !== nome);
   saveIndex(index);
