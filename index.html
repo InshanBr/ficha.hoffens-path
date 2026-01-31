@@ -1396,10 +1396,24 @@
           </div>
           
           <div class="dados-personagem">
-            <input type="text" id="personagem-nome-combate" placeholder="Personagem" readonly>
+            
+            <div style="display: flex;">
+              <input type="text" id="personagem-nome-combate" placeholder="Personagem" readonly>
+              <label for="nivel-poder-combate" style="z-index: 2;">NP</label>
+              <div class="np-space">
+                <input type="number" id="nivel-poder-combate" readonly>
+              </div>
+            </div>
+
+            <div class="percentual-barra" style="margin-left: 5%;">V</div>
             <div class="percentual-barra" id="percentual-vida">100%</div>
             <hr align="left" class="margem-barra" style="height: 15px;">
             <hr id="barra-vida" align="left" style="position: relative; z-index: 2;margin-left: 2px;">
+
+            <div class="percentual-barra" style="margin-left: 5%;">E</div>
+            <div class="percentual-barra" id="percentual-estamina">100%</div>
+            <hr align="left" class="margem-barra" style="height: 15px;">
+            <hr id="barra-estamina" align="left" style="position: relative; z-index: 2; margin-left: 2px;">
           </div>
         </div>
 

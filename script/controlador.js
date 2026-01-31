@@ -83,8 +83,12 @@ function recalcularTudo() {
   copiaValor("personagem", "personagem-nome-combate");
   copiaValor("vida", "vida-maxima-combate");
   copiaValor("estamina", "estamina-maxima-combate");
+  copiaValor("nivelPoder", "nivel-poder-combate");
   calcularDeslocamento("nivel-deslocamento", "deslocamento-combate");
   atualizarBarra("barra-vida","vida-combate", "vida-maxima-combate");
+  atualizarPercentual("percentual-vida", "vida-combate", "vida-maxima-combate");
+  atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
+  atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
 }
 
 
@@ -147,6 +151,11 @@ document.getElementById("vida-combate").addEventListener("change", () => {
   atualizarBarra("barra-vida","vida-combate", "vida-maxima-combate");
   atualizarPercentual("percentual-vida", "vida-combate", "vida-maxima-combate");
 });
+
+document.getElementById("estamina-combate").addEventListener("change", () => {
+  atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
+  atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
+})
 
 
 function calcularDeslocamento(campo, destino) {
