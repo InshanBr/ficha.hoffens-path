@@ -1,11 +1,17 @@
 function subtrairVida(dano, pctEstamina) {
+  const resistencia = Number(document.getElementById("resistencia-total").value) || 0;
+  var reducao;
   const danoSofrido = Number(document.getElementById(dano).value) || 0;
-
   const vidaAtual = document.getElementById("vida-combate");
-  vidaAtual.value = vidaAtual.value - danoSofrido;
-
   const pct = Number(document.getElementById(pctEstamina).value) || 0;
-  const reducao = Math.floor(danoSofrido * pct/100);
+
+  if(danoSofrido > resistencia) {
+    vidaAtual.value = vidaAtual.value - danoSofrido + resistencia;
+    reducao = Math.floor((danoSofrido - resistencia) * pct/100);
+  }
+  else{
+    reducao = 0;
+  }
   subtrairEstamina(reducao);
   
   return danoSofrido
