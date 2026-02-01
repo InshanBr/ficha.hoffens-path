@@ -11,6 +11,18 @@ document.addEventListener("input", function (e) {
   }
 });
 
+document.getElementById("vida-combate").addEventListener("change", () => {
+  atualizarBarra("barra-vida","vida-combate", "vida-maxima-combate");
+  atualizarPercentual("percentual-vida", "vida-combate", "vida-maxima-combate");
+});
+
+document.getElementById("estamina-combate").addEventListener("change", () => {
+  atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
+  atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
+})
+
 carregarConfig();
 
 carregarIndex();
+
+recalcularTudo();

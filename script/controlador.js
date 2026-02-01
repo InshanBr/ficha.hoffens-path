@@ -148,15 +148,6 @@ function atualizarPercentual(percentual, atual, maximo) {
   requestAnimationFrame(animate);
 }
 
-document.getElementById("vida-combate").addEventListener("change", () => {
-  atualizarBarra("barra-vida","vida-combate", "vida-maxima-combate");
-  atualizarPercentual("percentual-vida", "vida-combate", "vida-maxima-combate");
-});
-
-document.getElementById("estamina-combate").addEventListener("change", () => {
-  atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
-  atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
-})
 
 
 function calcularDeslocamento(campo, destino) {

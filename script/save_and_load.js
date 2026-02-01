@@ -326,7 +326,7 @@ function carregarIndex() {
   // opção padrão
   const placeholder = document.createElement("option");
   placeholder.value = "selecionar";
-  placeholder.textContent = "— selecionar personagem —";
+  placeholder.textContent = "— Selecionar Personagem —";
   select.appendChild(placeholder);
 
   // adiciona as fichas
