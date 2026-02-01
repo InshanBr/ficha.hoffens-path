@@ -9,8 +9,8 @@
 }
 
 @font-face {
-  font-family: "BebasNeue";
-  src: url(fonts/BebasNeue-Pro-Bold.ttf);
+  font-family: "BebasNeue Pro";
+  src: url(fonts/BEBAS-NEUE-PRO-BOLD-BF66CF3D7770DFE.TTF);
 }
 
 @font-face {
@@ -113,7 +113,7 @@ body {
 }
 
 .opcao-ajuste span{
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color: var(--cor-tema-letras);
   letter-spacing: var(--nf-spacing);
 }
@@ -195,7 +195,7 @@ h1 {
   text-align: left;
   margin-bottom: 2px;
   margin-top: 2px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color:var(--cor-primaria);
   font-weight: normal;
   letter-spacing: var(--nf-spacing);
@@ -208,7 +208,7 @@ input {
 }
 
 label {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color: var(--cor-tema-letras);
 }
 
@@ -363,7 +363,7 @@ textarea {
 }
 
 .poderes label {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color: var(--cor-tema-letras);
   font-size: 20px;
   padding: 5px;
@@ -416,7 +416,7 @@ th{
 }
 
 .normal-text {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color: var(--cor-tema-letras);
   letter-spacing: var(--nf-spacing);
 }
@@ -428,7 +428,7 @@ th{
 
 .field label {
   font-size: 15px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   margin-bottom: 4px;
   text-transform: uppercase;
   color: var(--cor-tema-letras);
@@ -461,7 +461,7 @@ th{
 
 .hability label {
   font-size: 20px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   margin-bottom: 4px;
   text-transform: uppercase;
   color: var(--cor-tema-letras);
@@ -475,7 +475,7 @@ th{
 
 .sub-hab label {
   font-size: 15px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   margin-bottom: 4px;
   text-transform: uppercase;
   color: var(--cor-tema-letras);
@@ -503,7 +503,7 @@ th{
 }
 
 .outros label {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   font-size: 12px;
   color: var(--cor-tema-letras);
   letter-spacing: var(--nf-spacing);
@@ -679,7 +679,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border: var(--cor-secundaria);
   vertical-align: middle;
   cursor: pointer;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   transition:
     background-color 0.5s ease;
 }
@@ -750,7 +750,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .classe label{
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   font-size: 15px;
   position: relative;
   z-index: 1;
@@ -794,7 +794,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #vantagensPorTipo label {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   font-size: 15px;
   color: var(--cor-secundaria);
   padding: 5px;
@@ -808,14 +808,14 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 5%;
   text-align: center;
   max-height: 20px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   letter-spacing: var(--nf-spacing);
   margin: auto;
   background-color: transparent;
 }
 
 select {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   letter-spacing: var(--nf-spacing);
   color: var(--cor-tema-fundo);
   background-color: var(--cor-campo);
@@ -824,7 +824,7 @@ select {
 }
 
 span {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   font-weight: normal;
   color: var(--cor-tema-letras);
   letter-spacing: var(--nf-spacing);
@@ -1070,7 +1070,7 @@ span {
   width: 100%;
   box-sizing: border-box;
   font-size: 13px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color: var(--cor-secundaria);
   text-align:center;
   border:none;
@@ -1167,13 +1167,13 @@ textarea::placeholder {
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   text-align: center;
   color: var(--cor-tema-letras);
 }
 
 #personagem-nome-combate {
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   font-size: 30px;
   background-color: transparent;
   border: none;
@@ -1194,7 +1194,7 @@ textarea::placeholder {
 
 #nivel-poder-combate {
   font-size: 30px;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   color: var(--cor-tema-letras);
   background-color: transparent;
   border: none;
@@ -1225,7 +1225,7 @@ textarea::placeholder {
 .percentual-barra {
   position: absolute;
   z-index: 3;
-  font-family: BebasNeue;
+  font-family: BebasNeue Pro;
   margin-left: 50%;
   transform: translate(-50%);
   color: var(--cor-tema-letras);
