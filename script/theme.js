@@ -35,6 +35,7 @@ function carregarPersonalizacao() {
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundPosition = "top";
     document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundAttachment = "fixed";
   }
 
   personalizar();
@@ -133,14 +134,31 @@ function trocarFundo(event) {
   const reader = new FileReader();
 
   reader.onload = function (e) {
-    const base64 = e.target.result;
+    const imgOriginal = new Image();
+    imgOriginal.src = e.target.result;
 
-    document.body.style.backgroundImage = `url("${base64}")`;
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "top";
-    document.body.style.backgroundRepeat = "no-repeat";
+    imgOriginal.onload = function () {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
-    localStorage.setItem("fundo-personalizado", base64);
+      const MAX_WIDTH = 1920;
+      const escala = MAX_WIDTH / imgOriginal.width;
+      
+      canvas.width = MAX_WIDTH;
+      canvas.height = imgOriginal.height * escala;
+
+      ctx.drawImage(imgOriginal, 0, 0, canvas.width, canvas.height);
+
+      const base64Reduzido = canvas.toDataURL("image/jpeg", 0.8);
+
+      document.body.style.backgroundImage = `url("${base64Reduzido}")`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "top";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundAttachment = "fixed";
+
+      localStorage.setItem("fundo-personalizado", base64Reduzido);
+    };
   };
 
   reader.readAsDataURL(arquivo);
@@ -152,4 +170,3 @@ function removerFundo () {
 }
 
 carregarPersonalizacao();
-personalizar();
