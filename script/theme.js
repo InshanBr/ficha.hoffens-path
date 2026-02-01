@@ -36,6 +36,7 @@ function carregarPersonalizacao() {
     document.body.style.backgroundPosition = "top";
     document.body.style.backgroundRepeat = "no-repeat";
     document.body.style.backgroundAttachment = "fixed";
+    document.body.style.backgroundPositionY = "86px";
   }
 
   personalizar();
@@ -156,6 +157,7 @@ function trocarFundo(event) {
       document.body.style.backgroundPosition = "top";
       document.body.style.backgroundRepeat = "no-repeat";
       document.body.style.backgroundAttachment = "fixed";
+      document.body.style.backgroundPositionY = "86px";
 
       localStorage.setItem("fundo-personalizado", base64Reduzido);
     };
