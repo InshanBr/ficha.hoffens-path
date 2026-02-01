@@ -10,7 +10,12 @@
 
 @font-face {
   font-family: "BebasNeue";
-  src: url(fonts/BebasNeue-Regular.ttf);
+  src: url(fonts/BebasNeue-Pro-Bold.ttf);
+}
+
+@font-face {
+  font-family: "Gill Sans MT";
+  src: url(fonts/GIL_____.TTF);
 }
 
 :root {
