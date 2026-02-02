@@ -48,3 +48,45 @@ function rolarPoderPersonalizado (poder, efeito, ligado) {
   const nomeTeste = `${nomePoder} [${nomeEfeito}]`;
   testeAtributo(`lvl-efeito-${poder}-${efeito}-${ligado}`, nomeTeste);
 }
+
+function testeDano(nvl, rol) {
+  var dmg = Number(document.getElementById(nvl).value) || 0;
+  var somaDados = 0;
+  if(dmg != ""){
+    
+    var rolagem = document.getElementById(rol).value;
+    var rolDano;
+    if(dmg > 0){
+      var parts = rolagem.split(/d|\+/);
+      var nDados = Number(parts[0]);
+      var dado = Number(parts[1]);
+      var bonus = Number(parts[2]);
+
+      // rolar o dano
+      var rolls = [];
+      for(var n = 0; n < nDados; n++){
+        var thisDado = Math.floor(Math.random() * dado) + 1;
+        somaDados += thisDado;
+        rolls.push(thisDado);
+      }
+      rolDano = rolls.join(", ");
+      somaDados += bonus;
+    }
+
+    const jogador = document.getElementById("usuario-discord").value || "---";
+    const servidorDiscord = document.getElementById("servidor-discord").value;
+    
+    var dados = {
+      "Dano Teste": dmg,
+      "Rolagem Teste": rolagem,
+      "resultadoDano": somaDados,
+      "rolagensDano": rolDano,
+      "discordID": servidorDiscord,
+      "Jogador": jogador
+    };
+
+    const bot = document.getElementById("bot-discord").value;
+
+    if (servidorDiscord != "") enviarRequest(dados, bot, "/dano");
+    }
+}

@@ -1466,15 +1466,29 @@
 
       <div id="acao-combate">
         <div class="subtrair-dano">
+          <h2>Calculadora de Vida Restante</h2>
           <label for="dano-sofrido">Dano:</label>
           <input type="number" id="dano-sofrido" class="campo-editavel">
 
           <label for="pct-reducao">Redução da Estamina (%):</label>
           <input type="number" id="pct-reducao" class="campo-editavel">
 
-          <button class="botao-img" onclick="subtrairVida('dano-sofrido', 'pct-reducao')">
+          <label for="sub-resistencia">Subtrair Resistência?</label>
+          <input type="checkbox" id="sub-res" class="config">
+
+          <button class="botao-img" onclick="subtrairVida('dano-sofrido', 'pct-reducao')" title="Subtrair Dano">
             <img src="img/sword-spin.png" alt="Sofrer Dano">
           </button>
+        </div>
+
+        <div class="consulta-dano">
+          <button class="botao-rolar" id="rolar-dano-teste" onclick="testeDano('nivel-dano', 'rolagem-dano')">
+            <img src="img/d20.png" alt="Rolar Dano">
+          </button>
+          <label for="nivel-dano">Dano:</label>
+          <input type="number" class="campo-editavel dependente" id="nivel-dano" style="max-width: 10%;">
+          <label for="rolagem-dano">:</label>
+          <input type="text" id="rolagem-dano" class="campo-calculado" readonly>
         </div>
         
       </div>

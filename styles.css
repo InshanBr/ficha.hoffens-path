@@ -201,6 +201,16 @@ h1 {
   letter-spacing: var(--nf-spacing);
 }
 
+h2 {
+  text-align: left;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  font-family: BebasNeue Pro;
+  color:var(--cor-primaria);
+  font-weight: normal;
+  letter-spacing: var(--nf-spacing);
+}
+
 input {
   font-family: comic;
   background-color: var(--cor-tema-menu);
@@ -1278,7 +1288,7 @@ textarea::placeholder {
   box-sizing: border-box;
   font-size: 15px;
   text-align:center;
-  max-width: 70px;
+  max-width: 100px;
   border: 2px solid var(--cor-sub);
   background-color: transparent;
 }
@@ -1286,7 +1296,10 @@ textarea::placeholder {
   display: flex;
   width: 100%;
   align-items: center;
-  gap: 2px;
+  gap: 5px;
+  padding: 5px;
+  border-left: 5px solid var(--cor-secundaria);
+  margin-top: 5px;
 }
 
 .subtrair-dano input {
@@ -1312,4 +1325,10 @@ textarea::placeholder {
 .linha-combate:hover #esforco-20,
 .linha-combate:hover #esforco-50 {
   background-color: var(--cor-campo);
+}
+
+.consulta-dano {
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }

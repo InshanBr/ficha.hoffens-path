@@ -90,6 +90,7 @@ function recalcularTudo() {
   atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
   atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
   calculoEsforcoExtra();
+  atribuirRolagemDano("nivel-dano", "rolagem-dano")
 }
 
 
@@ -147,8 +148,6 @@ function atualizarPercentual(percentual, atual, maximo) {
 
   requestAnimationFrame(animate);
 }
-
-
 
 function calcularDeslocamento(campo, destino) {
   const agilidade = parseInt(document.getElementById(campo).value, 10);
