@@ -1481,14 +1481,17 @@
           </button>
         </div>
 
-        <div class="consulta-dano">
-          <button class="botao-rolar" id="rolar-dano-teste" onclick="testeDano('nivel-dano', 'rolagem-dano')">
+        <div class="consulta-dano" id="dano-teste">
+          <button class="botao-rolar" id="rolar-dano-teste" onclick="testeDano('nivel-dano', 'rolagem-dano','critico-teste')">
             <img src="img/d20.png" alt="Rolar Dano">
           </button>
           <label for="nivel-dano">Dano:</label>
+          
           <input type="number" class="campo-editavel dependente" id="nivel-dano" style="max-width: 10%;">
           <label for="rolagem-dano">:</label>
+          <span id="multiplicador-teste">2x</span>
           <input type="text" id="rolagem-dano" class="campo-calculado" readonly>
+          <input type="checkbox" id="critico-teste" onchange="destacaCritico('dano-teste')">
         </div>
         
       </div>

@@ -49,7 +49,7 @@ function rolarPoderPersonalizado (poder, efeito, ligado) {
   testeAtributo(`lvl-efeito-${poder}-${efeito}-${ligado}`, nomeTeste);
 }
 
-function testeDano(nvl, rol) {
+function testeDano(nvl, rol, crit) {
   var dmg = Number(document.getElementById(nvl).value) || 0;
   var somaDados = 0;
   if(dmg != ""){
@@ -72,6 +72,7 @@ function testeDano(nvl, rol) {
       rolDano = rolls.join(", ");
       somaDados += bonus;
     }
+    const critico = document.getElementById(crit).checked;
 
     const jogador = document.getElementById("usuario-discord").value || "---";
     const servidorDiscord = document.getElementById("servidor-discord").value;
@@ -81,6 +82,7 @@ function testeDano(nvl, rol) {
       "Rolagem Teste": rolagem,
       "resultadoDano": somaDados,
       "rolagensDano": rolDano,
+      "critico": critico,
       "discordID": servidorDiscord,
       "Jogador": jogador
     };

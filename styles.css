@@ -1329,6 +1329,33 @@ textarea::placeholder {
 
 .consulta-dano {
   display: flex;
+  width: 100%;
+  justify-content: center;
   gap: 5px;
   align-items: center;
+  background-image: linear-gradient(to right,
+   var(--cor-campo) 5%,
+   transparent 20%,
+   transparent 85%,
+   var(--cor-campo));
+  background-position: center;
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  transition: all 0.2s ease;
+}
+
+#multiplicador-teste {
+  opacity: 0;
+  font-size: 1px;
+  color: var(--cor-primaria);
+  transition: all 0.2s ease;
+}
+
+.consulta-dano.critico {
+  background-size: 100% 100%;
+}
+
+.consulta-dano.critico #multiplicador-teste {
+  opacity: 1;
+  font-size: 20px;
 }

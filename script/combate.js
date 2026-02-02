@@ -118,3 +118,8 @@ function atribuirRolagemDano(nvl, rolagem) {
   
   rolagemCampo.value = determinarRolagem(nivelDano);
 }
+
+function destacaCritico(linha) {
+  const destacar = document.getElementById(linha);
+  destacar.classList.toggle("critico");
+}
