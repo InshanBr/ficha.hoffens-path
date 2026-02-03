@@ -1,4 +1,6 @@
 function subtrairVida(dano, pctEstamina) {
+  const icon = document.getElementById("container-img");
+
   const resistencia = Number(document.getElementById("resistencia-total").value) || 0;
   var reducao;
   const danoSofrido = Number(document.getElementById(dano).value) || 0;
@@ -7,19 +9,30 @@ function subtrairVida(dano, pctEstamina) {
 
   const subtrairRes = document.getElementById("sub-res");
 
-  if(danoSofrido > resistencia) {
-    vidaAtual.value = Number(vidaAtual.value) - danoSofrido;
-
-    if(subtrairRes.checked){
-      vidaAtual.value = Number(vidaAtual.value) + resistencia;
+  if(subtrairRes.checked) {
+    if(danoSofrido > resistencia){
+      vidaAtual.value = Number(vidaAtual.value) - danoSofrido + resistencia;
       reducao = Math.floor((danoSofrido - resistencia) * pct/100);
-    } else {
-      reducao = Math.floor((danoSofrido) * pct/100);
+
+      icon.classList.toggle("dano-shake");
+
+      icon.addEventListener('animationend', () => {
+        icon.classList.remove('dano-shake');
+      }, { once: true });
+    } 
+    else {
+      reducao = 0;
     }
-    
   }
   else{
-    reducao = 0;
+    vidaAtual.value = Number(vidaAtual.value) - danoSofrido;
+    reducao = Math.floor((danoSofrido) * pct/100);
+
+    icon.classList.toggle("dano-shake");
+
+    icon.addEventListener('animationend', () => {
+      icon.classList.remove('dano-shake');
+    }, { once: true });
   }
   subtrairEstamina(reducao);
   

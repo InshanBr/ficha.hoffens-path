@@ -1145,6 +1145,27 @@ textarea::placeholder {
   position: relative;
 }
 
+.dano-shake {
+  animation: shake 0.3s ease-out;
+}
+
+@keyframes  shake{
+  0% {
+    transform: translateY(0);
+    filter: brightness(1);}
+  15% {transform: translateY(-5px);}
+  30% {transform: translateY(5px);}
+  45% {
+    transform: translateY(-5px);
+    filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(5);}
+  60% {transform: translateY(5px);}
+  75% {transform: translateY(-5px);}
+  90% {transform: translateY(5px);}
+  100% {
+    transform: translateY(0);
+    filter: brightness(1);}
+}
+
 #overlay-personagem {
   position: absolute;
   top: 5px;
