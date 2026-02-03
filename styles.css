@@ -1359,3 +1359,41 @@ textarea::placeholder {
   opacity: 1;
   font-size: 20px;
 }
+
+#rolagem-dano {
+  transition: all 0.2s ease;
+}
+
+.consulta-dano.critico #rolagem-dano {
+  background-color: var(--cor-secundaria);
+}
+
+.consulta-dano.critico label {
+  color: var(--cor-primaria);
+}
+
+#critico-teste {
+  display: none;
+}
+
+.critical-mark::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 6px;
+  vertical-align: middle;
+  transition: all 0.4s ease;
+  background-color: transparent;
+  border: 2px solid var(--cor-primaria);
+  transform: rotate(45deg);
+}
+
+#dano-teste input:checked + label::before {
+  background-color: var(--cor-primaria);
+  box-shadow: inset 0 0 0 3px var(--cor-tema-fundo);
+  transform: rotate(315deg);
+  width: 20px;
+  height: 20px;
+}
