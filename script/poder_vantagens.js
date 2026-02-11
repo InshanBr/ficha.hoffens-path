@@ -493,7 +493,7 @@ function adicionarModificadores(poder, efeito, ligado) {
   novaLinha.className = "modificadores-linha span-6 item-conectado";
   novaLinha.innerHTML = `
     <br>
-    <input type="number" id="custo-modificador-${poder}-${efeito}-${ligado}-${contadorModificadores[poder][efeito]}" name="custo-modificador" class="dependente" placeholder="Custo">
+    <input type="number" id="custo-modificador-${poder}-${efeito}-${ligado}-${contadorModificadores[poder][efeito][ligado]}" name="custo-modificador" class="dependente" placeholder="Custo">
     <select name="tipo-modificador" id="tipo-modificador-${poder}-${efeito}-${ligado}-${contadorModificadores[poder][efeito]}" class="dependente">
       <option value="por-nivel">Por Nível</option>
       <option value="fixo-por-nivel">Fixo por Nível</option>
