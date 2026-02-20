@@ -409,12 +409,6 @@ textarea {
   display: grid;
   grid-template-columns: 50% 50%;
   padding: 10px;
-  transition: 
-    background-color 0.5s ease;
-}
-
-.combate:hover {
-  background-color: var(--cor-tema-menu-extra);
 }
 
 table {
@@ -727,7 +721,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .botao-rolar {
   background-color: transparent;
   border: none;
-  padding: 0;
+  padding: 1px;
   cursor: pointer;
   width: 18px;
   height: 18px;
@@ -743,6 +737,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .botao-rolar:hover {
+  padding: 0;
   background-color: var(--cor-secundaria);
   border: 1px solid var(--cor-secundaria);
 }
@@ -1127,6 +1122,12 @@ textarea::placeholder {
   padding: 5px;
   margin: 5px;
   border: 5px solid var(--cor-secundaria);
+  transition: 
+    background-color 0.5s ease;
+}
+
+#status-combate:hover {
+  background-color: var(--cor-tema-menu-extra);
 }
 
 #personagem-combate {
@@ -1354,6 +1355,9 @@ textarea::placeholder {
   justify-content: center;
   gap: 5px;
   align-items: center;
+}
+
+.crita {
   background-image: linear-gradient(to right,
    var(--cor-campo) 5%,
    transparent 20%,
@@ -1365,18 +1369,18 @@ textarea::placeholder {
   transition: all 0.2s ease;
 }
 
-#multiplicador-teste {
+.multiplicador {
   opacity: 0;
   font-size: 1px;
   color: var(--cor-primaria);
   transition: all 0.2s ease;
 }
 
-.consulta-dano.critico {
+.critico {
   background-size: 100% 100%;
 }
 
-.consulta-dano.critico #multiplicador-teste {
+.critico .multiplicador {
   opacity: 1;
   font-size: 20px;
 }
@@ -1385,15 +1389,11 @@ textarea::placeholder {
   transition: all 0.2s ease;
 }
 
-.consulta-dano.critico #rolagem-dano {
-  background-color: var(--cor-secundaria);
-}
-
-.consulta-dano.critico label {
+.critico label {
   color: var(--cor-primaria);
 }
 
-#critico-teste {
+.check-critico {
   display: none;
 }
 
@@ -1409,12 +1409,58 @@ textarea::placeholder {
   background-color: transparent;
   border: 2px solid var(--cor-primaria);
   transform: rotate(45deg);
+  cursor: pointer;
 }
 
-#dano-teste input:checked + label::before {
+.crita input:checked + label::before {
   background-color: var(--cor-primaria);
   box-shadow: inset 0 0 0 3px var(--cor-tema-fundo);
   transform: rotate(315deg);
-  width: 20px;
-  height: 20px;
 }
+
+.lista-ataques{
+  padding: 5px;
+}
+
+.linha-ataque {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 5px;
+  padding: 5px;
+  margin: 10px;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  min-height: 50px;
+}
+
+.linha-ataque:hover {
+  background-color: var(--cor-tema-menu-extra);
+  border-radius: 3px;
+  box-shadow: 0px 0px 0px 10px var(--cor-tema-menu-extra);
+}
+
+.linha-ataque input{
+  max-height: 20px;
+}
+
+.linha-ataque label {
+  display: flex;
+  gap: 2px;
+  text-wrap:nowrap;
+}
+
+.dano {
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  transition: all .2s ease;
+}
+
+.critico .dano {
+  background-color: var(--cor-secundaria);
+}
+
+.rolagem-ataque {
+  justify-self: center;
+  align-items: center;
+}
+

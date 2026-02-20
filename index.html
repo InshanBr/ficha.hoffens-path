@@ -1481,7 +1481,7 @@
           </button>
         </div>
 
-        <div class="consulta-dano" id="dano-teste">
+        <div class="consulta-dano crita" id="dano-teste">
           <button class="botao-rolar" id="rolar-dano-teste" onclick="testeDano('nivel-dano', 'rolagem-dano','critico-teste')">
             <img src="img/d20.png" alt="Rolar Dano">
           </button>
@@ -1489,10 +1489,53 @@
           
           <input type="number" class="campo-editavel dependente" id="nivel-dano" style="max-width: 10%;">
           <label for="rolagem-dano">:</label>
-          <span id="multiplicador-teste">2x</span>
-          <input type="text" id="rolagem-dano" class="campo-calculado" readonly>
-          <input type="checkbox" id="critico-teste" onchange="destacaCritico('dano-teste')">
+          <span id="multiplicador-teste" class="multiplicador">2x</span>
+          <input type="text" id="rolagem-dano" class="campo-calculado dano" readonly>
+          <input type="checkbox" id="critico-teste" onchange="destacaCritico('dano-teste')" class="check-critico">
           <label for="critico-teste" class="critical-mark">Crit</label>
+        </div>
+
+        <div class="lista-ataques">
+          <h1>Ataques</h1>
+          <div class="linha-ataque crita" id="linha-ataque-1">
+            <label for="nivel-ataque-1">
+              Nível [<input type="number" name="nivel-ataque" id="nivel-ataque-1" class="campo-editavel" placeholder="Nível">]
+              <button class="botao-rolar">
+                <img src="img/d20.png" alt="rolar-nivel-1" title="Rolar Ataque 1">
+              </button>
+            </label>
+
+            <select name="tipo-ataque" id="tipo-ataque-1" class="campo-editavel">
+              <option value="selecione" selected>— Tipo do Ataque —</option>
+              <option value="dano">Dano</option>
+              <option value="cura">Cura</option>
+              <option value="manobra">Manobra</option>
+            </select>
+
+            <input type="text" name="nome-ataque" id="nome-ataque-1" class="campo-editavel span-2" placeholder="Ataque 1">
+
+            <label for="acerto-ataque-1">Acerto:
+              <input type="number" name="acerto-ataque" id="acerto-ataque-1" class="campo-editavel" placeholder="Acerto">
+              <button class="botao-rolar">
+                <img src="img/d20.png" alt="rolar-acerto-1" title="Rolar Acerto 1">
+              </button>
+            </label>
+
+            <label for="rolagem-ataque-1" class="span-2 rolagem-ataque">Rolagem:
+              <span class="multiplicador">2x</span>
+              <input type="text" class="campo-calculado dano">
+              <button class="botao-rolar">
+                <img src="img/d20.png" alt="rolagem-ataque-1" title="Rolagem de Ataque 1">
+              </button>
+            </label>
+            
+
+            <label for="critico-ataque-1">Crítico:
+              <input type="number" name="critico-ataque" id="critico-ataque-1" class="campo-editavel" placeholder="Crit">
+              <input type="checkbox" id="critico-1-check" onchange="destacaCritico('linha-ataque-1')" class="check-critico">
+              <label for="critico-1-check" class="critical-mark"></label>
+            </label>
+          </div>
         </div>
         
       </div>
