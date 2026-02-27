@@ -90,9 +90,9 @@ function recalcularTudo() {
   atualizarBarra("barra-estamina","estamina-combate", "estamina-maxima-combate");
   atualizarPercentual("percentual-estamina", "estamina-combate", "estamina-maxima-combate");
   calculoEsforcoExtra();
-  atribuirRolagemDano("nivel-dano", "rolagem-dano")
+  atribuirRolagemDano("nivel-dano", "rolagem-dano");
+  ajustaRolagens();
 }
-
 
 function atualizarBarraCorrupcao(corrupcao, max) {
   const valor = Number(corrupcao.value) || 0;

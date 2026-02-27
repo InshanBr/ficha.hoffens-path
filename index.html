@@ -1497,45 +1497,15 @@
 
         <div class="lista-ataques">
           <h1>Ataques</h1>
-          <div class="linha-ataque crita" id="linha-ataque-1">
-            <label for="nivel-ataque-1">
-              Nível [<input type="number" name="nivel-ataque" id="nivel-ataque-1" class="campo-editavel" placeholder="Nível">]
-              <button class="botao-rolar">
-                <img src="img/d20.png" alt="rolar-nivel-1" title="Rolar Ataque 1">
-              </button>
-            </label>
+        </div>
 
-            <select name="tipo-ataque" id="tipo-ataque-1" class="campo-editavel">
-              <option value="selecione" selected>— Tipo do Ataque —</option>
-              <option value="dano">Dano</option>
-              <option value="cura">Cura</option>
-              <option value="manobra">Manobra</option>
-            </select>
-
-            <input type="text" name="nome-ataque" id="nome-ataque-1" class="campo-editavel span-2" placeholder="Ataque 1">
-
-            <label for="acerto-ataque-1">Acerto:
-              <input type="number" name="acerto-ataque" id="acerto-ataque-1" class="campo-editavel" placeholder="Acerto">
-              <button class="botao-rolar">
-                <img src="img/d20.png" alt="rolar-acerto-1" title="Rolar Acerto 1">
-              </button>
-            </label>
-
-            <label for="rolagem-ataque-1" class="span-2 rolagem-ataque">Rolagem:
-              <span class="multiplicador">2x</span>
-              <input type="text" class="campo-calculado dano">
-              <button class="botao-rolar">
-                <img src="img/d20.png" alt="rolagem-ataque-1" title="Rolagem de Ataque 1">
-              </button>
-            </label>
-            
-
-            <label for="critico-ataque-1">Crítico:
-              <input type="number" name="critico-ataque" id="critico-ataque-1" class="campo-editavel" placeholder="Crit">
-              <input type="checkbox" id="critico-1-check" onchange="destacaCritico('linha-ataque-1')" class="check-critico">
-              <label for="critico-1-check" class="critical-mark"></label>
-            </label>
-          </div>
+        <div style="justify-self: center;">
+          <button class="botao-img" title="Adicionar Ataque" onclick="adicionarAtaque();">
+            <img src="img/adicionar.png" alt="Adicionar Ataque">
+          </button>
+          <button class="botao-img" title="Remover Ataques Vazios" onclick="removerAtaques();">
+            <img src="img/remover.png" alt="Remover Ataques">
+          </button>
         </div>
         
       </div>

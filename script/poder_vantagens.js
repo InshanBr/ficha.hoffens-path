@@ -2,8 +2,6 @@ let contadorPoderes = 0;
 let contadorEfeitos = [];
 let contadorEfeitosLigados = [];
 let contadorModificadores = [];
-let contadorVantagens = 0;
-
 
 function adicionarPoder() {
   contadorPoderes++;
@@ -607,6 +605,8 @@ function calcularCustoEfeitosAlternativos () {
   }
 }
 
+let contadorVantagens = 0;
+
 function adicionarVantagem() {
   contadorVantagens++;
   
@@ -672,7 +672,6 @@ function removerVantagens() {
 
   recalcularTudo();
 }
-
 
 function calcularCustoVantagens () {
   let custoVantagens = 0;

@@ -1420,6 +1420,8 @@ textarea::placeholder {
 
 .lista-ataques{
   padding: 5px;
+  max-height: 220px;
+  overflow-y: auto;
 }
 
 .linha-ataque {
@@ -1463,4 +1465,3 @@ textarea::placeholder {
   justify-self: center;
   align-items: center;
 }
-
