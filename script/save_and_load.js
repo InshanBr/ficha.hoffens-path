@@ -56,6 +56,7 @@ function salvarFicha() {
 
   localStorage.setItem(`ficha:${nome}`, JSON.stringify(dados));
   localStorage.setItem(`contadorVantagens:${nome}`, contadorVantagens);
+  localStorage.setItem(`contadorAtaques:${nome}`, contadorAtaques);
   localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(contadorModificadores));
   localStorage.setItem(`contadorEfeitos:${nome}`, JSON.stringify(contadorEfeitos));
   localStorage.setItem(`contadorEfeitosLigados:${nome}`, JSON.stringify(contadorEfeitosLigados));
@@ -89,6 +90,17 @@ function carregarFicha(nome) {
 
   for (let index = 0; index < nVantagens; index++) {
     adicionarVantagem();
+  }
+
+  const nAtaques = JSON.parse(localStorage.getItem(`contadorAtaques:${nome}`));
+
+  const listaAtaques = document.querySelector(".lista-ataques");
+  listaAtaques.innerHTML = "";
+
+  contadorAtaques = 0;
+
+  for (let index = 0; index < nAtaques; index++) {
+    adicionarAtaque();
   }
 
   const nPoderes = JSON.parse(localStorage.getItem(`contadorPoderes:${nome}`)) || 0;
@@ -173,6 +185,7 @@ function deletarFicha() {
 
   localStorage.removeItem(`ficha:${nome}`);
   localStorage.removeItem(`contadorVantagens:${nome}`);
+  localStorage.removeItem(`contadorAtaques:${nome}`);
   localStorage.removeItem(`contadorEquipamento:${nome}`);
   localStorage.removeItem(`contadorModificadores:${nome}`);
   localStorage.removeItem(`contadorEfeitosLigados:${nome}`);
@@ -213,6 +226,10 @@ function limparFicha() {
   const listaVantagens = document.getElementById("lista-vantagens");
   listaVantagens.innerHTML = "";
 
+  contadorVantagens = 0;
+  const listaAtaques = document.querySelector(".lista-ataques");
+  listaAtaques.innerHTML = "<h1>Ataques</h1>";
+
   contadorModificadores = [];
   contadorEfeitos = [];
   contadorPoderes = 0;
@@ -249,6 +266,7 @@ function exportarFicha() {
   const ficha = {
     dados,
     contadorVantagens,
+    contadorAtaques,
     contadorPoderes,
     contadorEfeitos,
     contadorModificadores,
@@ -279,6 +297,7 @@ function importarFicha(event) {
     const json = JSON.parse(reader.result);
     const dados = json.dados;
     const nVantagens = json.contadorVantagens || 0;
+    const nAtaques = json.contadorAtaques || 0;
     const nPoderes = json.contadorPoderes || 0;
     const nEfeitos = json.contadorEfeitos || [];
     const nEfeitosAlternativos = json.contadorEfeitosLigados || [];
@@ -289,6 +308,7 @@ function importarFicha(event) {
 
     localStorage.setItem(`ficha:${nome}`, JSON.stringify(dados));
     localStorage.setItem(`contadorVantagens:${nome}`, nVantagens);
+    localStorage.setItem(`contadorAtaques:${nome}`, nAtaques);
     localStorage.setItem(`contadorModificadores:${nome}`, JSON.stringify(nModificadores));
     localStorage.setItem(`contadorEfeitos:${nome}`, JSON.stringify(nEfeitos));
     localStorage.setItem(`contadorEfeitosLigados:${nome}`, JSON.stringify(nEfeitosAlternativos));
