@@ -226,7 +226,7 @@ function limparFicha() {
   const listaVantagens = document.getElementById("lista-vantagens");
   listaVantagens.innerHTML = "";
 
-  contadorVantagens = 0;
+  contadorAtaques = 0;
   const listaAtaques = document.querySelector(".lista-ataques");
   listaAtaques.innerHTML = "<h1>Ataques</h1>";
 
@@ -255,6 +255,7 @@ function limparFicha() {
 
 function exportarFicha() {
   removerVantagens();
+  removerAtaques();
   const dados = {};
   document.querySelectorAll("input, textarea, select").forEach(el => {
     if (el.id  && !el.classList.contains("personalizacao") && el.id != "tableFilter" &&
