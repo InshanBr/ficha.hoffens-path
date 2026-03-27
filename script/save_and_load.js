@@ -95,7 +95,7 @@ function carregarFicha(nome) {
   const nAtaques = JSON.parse(localStorage.getItem(`contadorAtaques:${nome}`));
 
   const listaAtaques = document.querySelector(".lista-ataques");
-  listaAtaques.innerHTML = "";
+  listaAtaques.innerHTML = "<h1>Ataques</h1>";
 
   contadorAtaques = 0;
 
@@ -165,6 +165,7 @@ function carregarFicha(nome) {
   }
 
   Object.keys(dados).forEach(id => {
+    if(id == "troca-icon") return;
     const el = document.getElementById(id);
     if (el) el.value = dados[id];
   });
@@ -259,7 +260,7 @@ function exportarFicha() {
   const dados = {};
   document.querySelectorAll("input, textarea, select").forEach(el => {
     if (el.id  && !el.classList.contains("personalizacao") && el.id != "tableFilter" &&
-        !el.classList.contains("config")) {
+        !el.classList.contains("config") && el.id != "troca-icon") {
       dados[el.id] = el.value;
     }
   });
