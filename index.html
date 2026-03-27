@@ -1460,7 +1460,45 @@
           <label for="esforco-50">(50%):
             <input type="number" class="campo-calculado" id="esforco-50" onclick="subtrairEstamina(this.value)" readonly>
           </label>
-          
+        </div>
+
+        <div class="linha-combate">
+          <label for="">Condições</label>
+
+          <select name="condicoes" id="condicoes-personagem" class="campo-editavel dependente span-2" style="padding: 5px; font-size: 15px;" onchange="atribuirDescricaoCondicao()">
+            <optgroup label="-----Condições Simples-----">
+              <option value="normal">Normal</option>
+              <option value="atordoado">Atordoado</option>
+              <option value="compelido">Compelido</option>
+              <option value="controlado">Controlado</option>
+              <option value="desabilitado">Desabilitado</option>
+              <option value="desatento">Desatento</option>
+              <option value="fatigado">Fatigado</option>
+              <option value="imovel">Imóvel</option>
+              <option value="impedido">Impedido</option>
+              <option value="indefeso">Indefeso</option>
+              <option value="prejudicado">Prejudicado</option>
+              <option value="tonto">Tonto</option>
+              <option value="transformado">Transformado</option>
+              <option value="vulneravel">Vunerável</option>
+            </optgroup>
+            
+            <optgroup label="-----Condições Combinadas-----">
+              <option value="adormecido">Adormecido</option>
+              <option value="amarrado">Amarrado</option>
+              <option value="caido">Caído</option>
+              <option value="cego">Cego</option>
+              <option value="exausto">Exausto</option>
+              <option value="incapacitado">Incapacitado</option>
+              <option value="morrendo">Morrendo</option>
+              <option value="paralisado">Paralisado</option>
+              <option value="restrito">Restrito</option>
+              <option value="surdo">Surdo</option>
+              <option value="surpreso">Surpreso</option>
+              <option value="transe">Transe</option>
+            </optgroup>
+          </select>
+          <textarea id="descricao-condicao" class="span-3" readonly></textarea>
         </div>
       </div>
 
