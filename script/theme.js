@@ -126,6 +126,12 @@ function trocaCor () {
     root.style.setProperty('--cor-campo', '#ffa4dc75');
     root.style.setProperty('--cor-sub', '#ff6c9fff');
   }
+  else if (selecionado.value == "cinza") {
+    root.style.setProperty('--cor-primaria', '#aaaaaa');
+    root.style.setProperty('--cor-secundaria', '#b1b1b1');
+    root.style.setProperty('--cor-campo', '#797979');
+    root.style.setProperty('--cor-sub', '#dddddd');
+  }
 }
 
 function trocarFundo(event) {
