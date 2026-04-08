@@ -94,7 +94,7 @@ function determinarRolagemCura(thisCura) {
 }
 
 const listaCura = {
-  0:  1,
+  0:  "1",
   1:  "1d4",
   2:  "2d4",
   3:  "3d4",
